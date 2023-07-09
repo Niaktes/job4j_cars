@@ -61,7 +61,7 @@ public class UserRepository {
 
     public List<User> findAllOrderedById() {
         Session session = sf.openSession();
-        List<User> result;
+        List<User> result = List.of();
         try {
             session.beginTransaction();
             Query<User> query = session.createQuery("FROM User ORDER BY id", User.class);
@@ -69,7 +69,6 @@ public class UserRepository {
             session.getTransaction().commit();
         } catch (HibernateException e) {
             session.getTransaction().rollback();
-            result = List.of();
         } finally {
             session.close();
         }
@@ -78,7 +77,7 @@ public class UserRepository {
 
     public Optional<User> findById(int userId) {
         Session session = sf.openSession();
-        Optional<User> result;
+        Optional<User> result = Optional.empty();
         try {
             session.beginTransaction();
             Query<User> query = session.createQuery("FROM User AS u WHERE u.id = :uId", User.class);
@@ -86,7 +85,6 @@ public class UserRepository {
             result = Optional.ofNullable(query.uniqueResult());
         } catch (HibernateException e) {
             session.getTransaction().rollback();
-            result = Optional.empty();
         } finally {
             session.close();
         }
@@ -95,7 +93,7 @@ public class UserRepository {
 
     public List<User> findByLikeLogin(String key) {
         Session session = sf.openSession();
-        List<User> result;
+        List<User> result = List.of();
         try {
             session.beginTransaction();
             Query<User> query = session.createQuery("FROM User AS u WHERE u.login LIKE :uKey", User.class);
@@ -104,7 +102,6 @@ public class UserRepository {
             session.getTransaction().commit();
         } catch (HibernateException e) {
             session.getTransaction().rollback();
-            result = List.of();
         } finally {
             session.close();
         }
@@ -113,7 +110,7 @@ public class UserRepository {
 
     public Optional<User> findByLogin(String login) {
         Session session = sf.openSession();
-        Optional<User> result;
+        Optional<User> result = Optional.empty();
         try {
             session.beginTransaction();
             Query<User> query = session.createQuery("FROM User AS u WHERE u.login = :uLogin", User.class);
@@ -122,7 +119,6 @@ public class UserRepository {
             session.getTransaction().commit();
         } catch (HibernateException e) {
             session.getTransaction().rollback();
-            result = Optional.empty();
         } finally {
             session.close();
         }

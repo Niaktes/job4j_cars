@@ -69,6 +69,7 @@ public class UserRepository {
             session.getTransaction().commit();
         } catch (HibernateException e) {
             session.getTransaction().rollback();
+            throw e;
         } finally {
             session.close();
         }
@@ -82,9 +83,10 @@ public class UserRepository {
             session.beginTransaction();
             Query<User> query = session.createQuery("FROM User AS u WHERE u.id = :uId", User.class);
             query.setParameter("uId", userId);
-            result = Optional.ofNullable(query.uniqueResult());
+            result = query.uniqueResultOptional();
         } catch (HibernateException e) {
             session.getTransaction().rollback();
+            throw e;
         } finally {
             session.close();
         }
@@ -102,6 +104,7 @@ public class UserRepository {
             session.getTransaction().commit();
         } catch (HibernateException e) {
             session.getTransaction().rollback();
+            throw e;
         } finally {
             session.close();
         }
@@ -115,10 +118,11 @@ public class UserRepository {
             session.beginTransaction();
             Query<User> query = session.createQuery("FROM User AS u WHERE u.login = :uLogin", User.class);
             query.setParameter("uLogin", login);
-            result = Optional.ofNullable(query.uniqueResult());
+            result = query.uniqueResultOptional();
             session.getTransaction().commit();
         } catch (HibernateException e) {
             session.getTransaction().rollback();
+            throw e;
         } finally {
             session.close();
         }

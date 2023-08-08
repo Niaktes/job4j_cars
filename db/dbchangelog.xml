@@ -9,4 +9,5 @@
     <include file="scripts/002_ddl_create_post_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/003_dml_insert_users.sql" relativeToChangelogFile="true"/>
     <include file="scripts/004_ddl_create_price_history_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/005_ddl_create_participates_table.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>

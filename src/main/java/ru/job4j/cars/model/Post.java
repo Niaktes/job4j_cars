@@ -25,7 +25,7 @@ public class Post {
     private LocalDateTime created = LocalDateTime.now();
 
     @ManyToOne
-    @JoinColumn(name = "auto_user_id")
+    @JoinColumn(name = "auto_user_id", foreignKey = @ForeignKey(name = "USER_ID_FK"))
     private User user;
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -39,5 +39,10 @@ public class Post {
             inverseJoinColumns = { @JoinColumn(name = "auto_user_id") }
     )
     private List<User> participates = new ArrayList<>();
+
+    @OneToOne
+    @JoinColumn(name = "car_id")
+    @EqualsAndHashCode.Include
+    private Car car;
 
 }

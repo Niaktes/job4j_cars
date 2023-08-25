@@ -14,27 +14,32 @@ public class UserRepository {
     /**
      * Сохранить в базе данных.
      * @param user пользователь.
-     * @return пользователь с id.
+     * @return Optional user c ID, или пустой Optional при совпадении уникальных полей.
      */
-    public User create(User user) {
-        crudRepository.run(session -> session.persist(user));
-        return user;
+    public Optional<User> create(User user) {
+        Optional<User> result = Optional.empty();
+        if (crudRepository.run(session -> session.persist(user))) {
+            result = Optional.of(user);
+        }
+        return result;
     }
 
     /**
      * Обновить в базе данных пользователя.
      * @param user пользователь.
+     * @return true в случае удачного обновления.
      */
-    public void update(User user) {
-        crudRepository.run(session -> session.merge(user));
+    public boolean update(User user) {
+        return crudRepository.run(session -> session.merge(user));
     }
 
     /**
      * Удалить пользователя по id.
      * @param userId ID.
+     * @return true в случае удачного удаления.
      */
-    public void delete(int userId) {
-        crudRepository.run("DELETE FROM User WHERE id = :fId", Map.of("fId", userId));
+    public boolean delete(int userId) {
+        return crudRepository.run("DELETE FROM User WHERE id = :uId", Map.of("uId", userId));
     }
 
     /**
@@ -52,9 +57,9 @@ public class UserRepository {
      */
     public Optional<User> findById(int userId) {
         return crudRepository.optional(
-                "FROM User WHERE id = :fId",
+                "FROM User WHERE id = :uId",
                 User.class,
-                Map.of("fId", userId)
+                Map.of("uId", userId)
         );
     }
 
@@ -65,9 +70,9 @@ public class UserRepository {
      */
     public List<User> findByLikeLogin(String key) {
         return crudRepository.query(
-                "FROM User WHERE login LIKE :fKey",
+                "FROM User WHERE login LIKE :uKey",
                 User.class,
-                Map.of("fKey", "%" + key + "%")
+                Map.of("uKey", "%" + key + "%")
         );
     }
 
@@ -78,9 +83,9 @@ public class UserRepository {
      */
     public Optional<User> findByLogin(String login) {
         return crudRepository.optional(
-                "FROM User WHERE login = :fLogin",
+                "FROM User WHERE login = :uLogin",
                 User.class,
-                Map.of("fLogin", login)
+                Map.of("uLogin", login)
         );
     }
 

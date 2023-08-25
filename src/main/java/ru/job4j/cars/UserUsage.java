@@ -20,7 +20,7 @@ public class UserUsage {
             User user = new User();
             user.setLogin("admin");
             user.setPassword("admin");
-            User savedUser = userRepository.create(user);
+            User savedUser = userRepository.create(user).get();
             System.out.println(savedUser);
             userRepository.findAllOrderedById().forEach(System.out::println);
             userRepository.findByLikeLogin("e").forEach(System.out::println);

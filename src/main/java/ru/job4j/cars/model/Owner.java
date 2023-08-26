@@ -24,7 +24,7 @@ public class Owner {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
     private Set<OwnershipHistory> history = new HashSet<>();
 
 }

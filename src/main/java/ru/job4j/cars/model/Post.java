@@ -2,7 +2,9 @@ package ru.job4j.cars.model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -32,13 +34,17 @@ public class Post {
     @JoinColumn(name = "post_id")
     private List<PriceHistory> priceHistories = new ArrayList<>();
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "post_id")
+    private Set<Photo> photos = new HashSet<>();
+
     @ManyToMany
     @JoinTable(
             name = "participates",
             joinColumns = { @JoinColumn(name = "auto_post_id") },
             inverseJoinColumns = { @JoinColumn(name = "auto_user_id") }
     )
-    private List<User> participates = new ArrayList<>();
+    private Set<User> participates = new HashSet<>();
 
     @OneToOne
     @JoinColumn(name = "car_id")

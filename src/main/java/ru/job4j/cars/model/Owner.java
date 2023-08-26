@@ -1,7 +1,7 @@
 package ru.job4j.cars.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -24,12 +24,7 @@ public class Owner {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToMany(fetch =  FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "ownership_history", joinColumns = {
-            @JoinColumn(name = "owner_id", nullable = false, updatable = false)},
-            inverseJoinColumns = {
-            @JoinColumn(name = "car_id", nullable = false, updatable = false)
-    })
-    private List<Car> cars = new ArrayList<>();
+    @OneToMany(mappedBy = "owner")
+    private Set<OwnershipHistory> history = new HashSet<>();
 
 }

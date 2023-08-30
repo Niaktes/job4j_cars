@@ -83,11 +83,10 @@ public class PostRepository {
 
     /**
      * Удалить пост по id.
-     * @param postId ID.
-     * @return true в случае удачного удаления.
+     * @param post ID.
      */
-    public boolean delete(int postId) {
-        return crudRepository.run("DELETE FROM Post WHERE id = :pId", Map.of("pId", postId));
+    public void delete(Post post) {
+        crudRepository.run(session -> session.delete(post));
     }
 
     private List<Post> findAllByCriteria(int createdDaysBefore, User user, boolean photosExist,
@@ -127,7 +126,7 @@ public class PostRepository {
             }
             if (ownersNumber > 0) {
                 predicates.add(criteriaBuilder.lessThanOrEqualTo(
-                        post.get("car").get("history"),
+                        criteriaBuilder.size(post.get("car").get("history")),
                         ownersNumber));
             }
             criteriaQuery.where(predicates.toArray(new Predicate[0]));

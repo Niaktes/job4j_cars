@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+    "http://hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.connection.driver_class">org.h2.Driver</property>
+    <property name="hibernate.connection.url">jdbc:h2:./testdb;MODE=PostgreSQL;CASE_INSENSITIVE_IDENTIFIERS=TRUE;</property>
+    <property name="hibernate.connection.username"></property>
+    <property name="hibernate.connection.password"></property>
+    <property name="hibernate.connection.pool_size">1</property>
+    <property name="hibernate.current_session_context_class">thread</property>
+    <property name="hibernate.show_sql">true</property>
+    <property name="hibernate.dialect">org.hibernate.dialect.H2Dialect</property>
+
+    <mapping class="ru.job4j.cars.model.User" />
+    <mapping class="ru.job4j.cars.model.Post" />
+    <mapping class="ru.job4j.cars.model.PriceHistory" />
+    <mapping class="ru.job4j.cars.model.Car" />
+    <mapping class="ru.job4j.cars.model.Engine" />
+    <mapping class="ru.job4j.cars.model.Owner" />
+    <mapping class="ru.job4j.cars.model.OwnershipHistory" />
+    <mapping class="ru.job4j.cars.model.Photo" />
+    <mapping class="ru.job4j.cars.model.CarModel" />
+  </session-factory>
+</hibernate-configuration>

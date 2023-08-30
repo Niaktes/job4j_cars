@@ -36,10 +36,9 @@ public class UserRepository {
     /**
      * Удалить пользователя по id.
      * @param userId ID.
-     * @return true в случае удачного удаления.
      */
-    public boolean delete(int userId) {
-        return crudRepository.run("DELETE FROM User WHERE id = :uId", Map.of("uId", userId));
+    public void delete(int userId) {
+        crudRepository.run("DELETE FROM User WHERE id = :uId", Map.of("uId", userId));
     }
 
     /**

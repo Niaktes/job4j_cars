@@ -1,5 +1,6 @@
 package ru.job4j.cars.repository;
 
+import java.util.Collection;
 import java.util.Map;
 import lombok.AllArgsConstructor;
 import ru.job4j.cars.model.CarModel;
@@ -20,21 +21,28 @@ public class ModelRepository {
     }
 
     /**
+     * Найти в БД все модели автомобилей.
+     * @return список моделей.
+     */
+    public Collection<CarModel> findAll() {
+        return crudRepository.query("FROM CarModel", CarModel.class);
+    }
+
+    /**
      * Обновить в базе данных модель автомобиля.
      * @param carModel модель автомобиля.
      * @return true в случае удачного обновления.
      */
     public boolean update(CarModel carModel) {
-        return crudRepository.run(session -> session.merge(carModel));
+        return crudRepository.run(session -> session.update(carModel));
     }
 
     /**
      * Удалить модель автомобиля по id.
      * @param modelId ID.
-     * @return true в случае удачного удаления.
      */
-    public boolean delete(int modelId) {
-        return crudRepository.run("DELETE FROM CarModel WHERE id = :mId", Map.of("mId", modelId));
+    public void delete(int modelId) {
+        crudRepository.run("DELETE FROM CarModel WHERE id = :mId", Map.of("mId", modelId));
     }
 
 }

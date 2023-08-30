@@ -1,5 +1,6 @@
 package ru.job4j.cars.repository;
 
+import java.util.Collection;
 import java.util.Map;
 import lombok.AllArgsConstructor;
 import ru.job4j.cars.model.Engine;
@@ -20,21 +21,28 @@ public class EngineRepository {
     }
 
     /**
+     * Найти в БД все типы двигателей.
+     * @return список двигателей.
+     */
+    public Collection<Engine> findAll() {
+        return crudRepository.query("FROM Engine", Engine.class);
+    }
+
+    /**
      * Обновить в базе данных двигатель.
      * @param engine двигатель.
      * @return true в случае удачного обновления.
      */
     public boolean update(Engine engine) {
-        return crudRepository.run(session -> session.merge(engine));
+        return crudRepository.run(session -> session.update(engine));
     }
 
     /**
      * Удалить двигатель по id.
      * @param engineId ID.
-     * @return true в случае удачного удаления.
      */
-    public boolean delete(int engineId) {
-        return crudRepository.run("DELETE FROM Engine WHERE id = :eId", Map.of("eId", engineId));
+    public void delete(int engineId) {
+        crudRepository.run("DELETE FROM Engine WHERE id = :eId", Map.of("eId", engineId));
     }
 
 }

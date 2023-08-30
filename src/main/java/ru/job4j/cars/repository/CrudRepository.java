@@ -5,9 +5,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import javax.persistence.PersistenceException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -26,7 +26,7 @@ public class CrudRepository {
                 return null;
             });
             result = true;
-        } catch (HibernateException e) {
+        } catch (PersistenceException e) {
             result = false;
         }
         return result;
@@ -80,7 +80,7 @@ public class CrudRepository {
             T rsl = command.apply(session);
             transaction.commit();
             return rsl;
-        } catch (HibernateException e) {
+        } catch (PersistenceException e) {
             if (transaction != null) {
                 transaction.rollback();
             }

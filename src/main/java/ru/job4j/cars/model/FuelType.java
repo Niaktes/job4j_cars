@@ -4,18 +4,14 @@ import javax.persistence.*;
 import lombok.Data;
 
 @Entity
-@Table(name = "model")
+@Table(name = "fuel_type")
 @Data
-public class CarModel {
+public class FuelType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "brand_name")
-    private String brandName;
-
-    @Column(name = "model_name")
     private String name;
 
 }

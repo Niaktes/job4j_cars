@@ -16,12 +16,17 @@
 
     <mapping class="ru.job4j.cars.model.User" />
     <mapping class="ru.job4j.cars.model.Post" />
-    <mapping class="ru.job4j.cars.model.PriceHistory" />
     <mapping class="ru.job4j.cars.model.Car" />
+    <mapping class="ru.job4j.cars.model.Brand" />
+    <mapping class="ru.job4j.cars.model.Model" />
+    <mapping class="ru.job4j.cars.model.Body" />
     <mapping class="ru.job4j.cars.model.Engine" />
-    <mapping class="ru.job4j.cars.model.Owner" />
-    <mapping class="ru.job4j.cars.model.OwnershipHistory" />
-    <mapping class="ru.job4j.cars.model.Photo" />
-    <mapping class="ru.job4j.cars.model.CarModel" />
+    <mapping class="ru.job4j.cars.model.FuelType" />
+    <mapping class="ru.job4j.cars.model.EngineSize" />
+    <mapping class="ru.job4j.cars.model.Transmission" />
+    <mapping class="ru.job4j.cars.model.Color" />
+    <mapping class="ru.job4j.cars.model.Category" />
+    <mapping class="ru.job4j.cars.model.Image" />
+    <mapping class="ru.job4j.cars.model.PriceHistory" />
   </session-factory>
 </hibernate-configuration>

@@ -21,32 +21,28 @@ public class Post {
 
     private String description;
 
+    @OneToOne
+    @JoinColumn(name = "car_id")
+    @EqualsAndHashCode.Include
+    private Car car;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "post_id")
+    private Set<Image> images = new HashSet<>();
+
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private LocalDateTime created = LocalDateTime.now();
 
-    @ManyToOne
-    @JoinColumn(name = "auto_user_id", foreignKey = @ForeignKey(name = "USER_ID_FK"))
-    private User user;
+    private boolean sold;
+
+    private long price;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "post_id")
     private Set<PriceHistory> priceHistories = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "post_id")
-    private Set<Photo> photos = new HashSet<>();
-
-    @ManyToMany
-    @JoinTable(
-            name = "participates",
-            joinColumns = { @JoinColumn(name = "auto_post_id") },
-            inverseJoinColumns = { @JoinColumn(name = "auto_user_id") }
-    )
-    private Set<User> participates = new HashSet<>();
-
-    @OneToOne
-    @JoinColumn(name = "car_id")
-    @EqualsAndHashCode.Include
-    private Car car;
+    @ManyToOne
+    @JoinColumn(name = "auto_user_id", foreignKey = @ForeignKey(name = "USER_ID_FK"))
+    private User user;
 
 }

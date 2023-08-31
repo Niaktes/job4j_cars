@@ -5,10 +5,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Entity
-@Table(name = "photo")
+@Table(name = "image")
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Photo {
+public class Image {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

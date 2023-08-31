@@ -18,12 +18,9 @@ public class PriceHistory {
     private int id;
 
     @EqualsAndHashCode.Include
-    private long before;
-
-    @EqualsAndHashCode.Include
-    private long after;
+    private long price;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
-    private LocalDateTime created;
+    private LocalDateTime date;
 
 }

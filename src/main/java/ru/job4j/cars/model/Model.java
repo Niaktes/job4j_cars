@@ -14,4 +14,7 @@ public class Model {
 
     private String name;
 
+    @Column(name = "brand_id")
+    private int brandId;
+
 }

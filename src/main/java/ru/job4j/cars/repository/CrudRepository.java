@@ -54,6 +54,17 @@ public class CrudRepository {
         return tx(command);
     }
 
+    public <T> T one(String query, Class<T> cl, Map<String, Object> args) {
+        Function<Session, T> command = session -> {
+            var sq = session.createQuery(query, cl);
+            for (Map.Entry<String, Object> arg : args.entrySet()) {
+                sq.setParameter(arg.getKey(), arg.getValue());
+            }
+            return sq.uniqueResult();
+        };
+        return tx(command);
+    }
+
     public <T> List<T> query(String query, Class<T> cl) {
         Function<Session, List<T>> command = session -> session
                 .createQuery(query, cl)

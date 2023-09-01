@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name = "auto_post")
+@Table(name = "post")
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Post {
@@ -42,7 +42,7 @@ public class Post {
     private Set<PriceHistory> priceHistories = new HashSet<>();
 
     @ManyToOne
-    @JoinColumn(name = "auto_user_id", foreignKey = @ForeignKey(name = "USER_ID_FK"))
+    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "USER_ID_FK"))
     private User user;
 
 }

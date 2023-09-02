@@ -134,6 +134,7 @@ public class HibernatePostRepository implements PostRepository {
             if (maxPrice != 0) {
                 predicates.add(criteriaBuilder.lessThanOrEqualTo(post.get("price"), maxPrice));
             }
+            predicates.add(criteriaBuilder.isFalse(post.get("sold")));
             criteriaQuery.where(predicates.toArray(new Predicate[0]));
             return session.createQuery(criteriaQuery).getResultList();
         };

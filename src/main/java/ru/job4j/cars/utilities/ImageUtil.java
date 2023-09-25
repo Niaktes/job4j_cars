@@ -15,7 +15,7 @@ public class ImageUtil {
 
     private final String imageDirectory;
 
-    public ImageUtil(@Value("image.directory") String imageDirectory) {
+    public ImageUtil(@Value("${image.directory}") String imageDirectory) {
         this.imageDirectory = imageDirectory;
         createImageDirectory(imageDirectory);
     }

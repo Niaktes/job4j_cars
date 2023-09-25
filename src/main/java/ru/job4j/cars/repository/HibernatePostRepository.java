@@ -71,7 +71,7 @@ public class HibernatePostRepository implements PostRepository {
     }
 
     /**
-     * Удалить пост по id.
+     * Удалить пост.
      * @param post пост.
      */
     @Override

@@ -20,6 +20,7 @@ public class HibernatePostRepository implements PostRepository {
      * @param post пост.
      * @return Optional поста c ID, или пустой Optional при совпадении уникальных полей.
      */
+    @Override
     public Optional<Post> save(Post post) {
         Optional<Post> result = Optional.empty();
         if (crudRepository.run(session -> session.save(post))) {
@@ -33,6 +34,7 @@ public class HibernatePostRepository implements PostRepository {
      * @param id ID поста.
      * @return Optional поста.
      */
+    @Override
     public Optional<Post> findById(int id) {
         return crudRepository.optional("FROM Post WHERE id = :pId", Post.class, Map.of("pId", id));
     }
@@ -51,6 +53,7 @@ public class HibernatePostRepository implements PostRepository {
      * @param id ID пользователя
      * @return список постов.
      */
+    @Override
     public List<Post> findAllByUserId(int id) {
         return crudRepository.query("FROM Post WHERE auto_user_id = :uId",
                 Post.class,
@@ -62,18 +65,29 @@ public class HibernatePostRepository implements PostRepository {
      * @param post пост.
      * @return true в случае удачного обновления.
      */
+    @Override
     public boolean update(Post post) {
         return crudRepository.run(session -> session.update(post));
     }
 
     /**
      * Удалить пост по id.
-     * @param post ID.
+     * @param post пост.
      */
+    @Override
     public void delete(Post post) {
         crudRepository.run(session -> session.delete(post));
     }
 
+    /**
+     * Найти все посты по определенным критериям.
+     * @param car критерии автомобиля.
+     * @param imagesExist наличие изображений.
+     * @param createdDaysBefore количество дней прошедших с создания поста.
+     * @param minPrice минимальная цена в посте.
+     * @param maxPrice максимальная цена в посте.
+     * @return список постов.
+     */
     @Override
     public List<Post> findAllByCriteria(Car car, boolean imagesExist, int createdDaysBefore, long minPrice,
                                         long maxPrice) {

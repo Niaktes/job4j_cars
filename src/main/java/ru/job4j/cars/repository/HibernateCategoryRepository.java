@@ -10,7 +10,10 @@ import ru.job4j.cars.model.Category;
 public class HibernateCategoryRepository implements CategoryRepository {
 
     private final CrudRepository crudRepository;
-
+    /**
+     * Получить из БД все типы категорий.
+     * @return список категорий.
+     */
     @Override
     public Collection<Category> findAll() {
         return crudRepository.query("FROM Category", Category.class);

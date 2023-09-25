@@ -9,8 +9,8 @@ public interface UserRepository {
 
     boolean update(User user);
 
-    Optional<User> findByLoginAndPassword(String email, String password);
+    Optional<User> findByEmailAndPassword(String email, String password);
 
-    void deleteByLoginAndPassword(String email, String password);
+    void deleteByEmailAndPassword(String email, String password);
 
 }

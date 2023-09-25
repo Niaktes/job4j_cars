@@ -37,13 +37,13 @@ public class HibernateUserRepository implements UserRepository {
     }
 
     /**
-     * Найти пользователя по логину и паролю.
+     * Найти пользователя по email и паролю.
      * @param email email пользователя.
      * @param password пароль пользователя.
      * @return Optional or user.
      */
     @Override
-    public Optional<User> findByLoginAndPassword(String email, String password) {
+    public Optional<User> findByEmailAndPassword(String email, String password) {
         return crudRepository.optional(
                 "FROM User WHERE email = :uEmail AND password = :uPassword",
                 User.class,
@@ -52,12 +52,12 @@ public class HibernateUserRepository implements UserRepository {
     }
 
     /**
-     * Удалить пользователя по логину и паролю.
+     * Удалить пользователя по email и паролю.
      * @param email email пользователя.
      * @param password пароль пользователя.
      */
     @Override
-    public void deleteByLoginAndPassword(String email, String password) {
+    public void deleteByEmailAndPassword(String email, String password) {
         crudRepository.run("DELETE FROM User WHERE email = :uEmail AND password = :uPassword",
                 Map.of("uEmail", email, "uPassword", password)
         );

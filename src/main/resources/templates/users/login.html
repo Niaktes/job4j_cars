@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+  <!--  Зависимости Bootstrap-->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link th:href = "@{/css/bootstrap.min.css}" rel="stylesheet">
+  <script th:src="@{/js/code.jquery.com_jquery-3.7.0.min.js}"></script>
+  <script th:src="@{/js/bootstrap.min.js}"></script>
+
+  <title>Автомаг</title>
+</head>
+
+<body>
+  <div class="container-fluid p-0">
+    <header th:insert="~{blocks/header :: header_login}"></header>
+    <div class="container col-9">
+      <form class="mt-3" th:action="@{/users/login}" method="post">
+        <div class="mb-3" th:if="${error}">
+          <p class="text-danger" th:text="${error}"></p>
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label"><b>Почта</b></label>
+          <input type="email" class="form-control" id="email" name="email" placeholder="Ivan@mail.ru" required>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label"><b>Пароль</b></label>
+          <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <div class="mb-3 row">
+          <p>Ещё не зарегистрировались?</p>
+          <div class="col-6 d-grid gap-2">
+            <a class="btn btn-warning w-150" th:href="@{/users/register}">Зарегистрироваться</a>
+          </div>
+          <div class="col-6 d-grid gap-2">
+            <button class="btn btn-primary w-150" type="submit">Войти</button>
+          </div>
+        </div>
+      </form>
+      <footer th:insert="~{blocks/footer :: footer}"></footer>
+    </div>
+  </div>
+</body>
+</html>

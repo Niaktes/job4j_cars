@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+
+<div th:fragment="header_main">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-grey">
+    <div class="container">
+      <a class="navbar-brand text-secondary" href="/">
+        <img src="https://img.freepik.com/premium-vector/purchase-buy-sharing-or-rental-car-logo-with-flat-icons-car-dealer-gives-keys-to-buyer-isolated-vector-illustration_108855-3539.jpg" alt="Автомаг" height="80">
+        <p class="text-start fs-5 font-monospace">Все объявления</p>
+      </a>
+      <div class="dropdown d-flex" th:if="${user.id == -1}">
+        <button class="btn btn-primary dropdown-toggle" type="button" id="GuestDropdown" data-bs-toggle="dropdown" aria-expanded="false" th:text="${user.name}">
+          Гость
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="GuestDropdown">
+          <li><a class="dropdown-item" th:href="@{/users/login}">Войти</a></li>
+          <li><a class="dropdown-item" th:href="@{/users/register}">Зарегистрироваться</a></li>
+        </ul>
+      </div>
+      <div class="dropdown d-flex" th:if="${user.id != -1}">
+        <button class="btn btn-primary dropdown-toggle" type="button" id="UserDropdown" data-bs-toggle="dropdown" aria-expanded="false" th:text="${user.name}">
+          Пользователь
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="UserDropdown">
+          <li><a class="dropdown-item" th:href="@{/users/update}">Изменить данные</a></li>
+          <li><a class="dropdown-item" th:href="@{/users/posts}">Ваши объявления</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" th:href="@{/users/logout}">Выйти</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>
+
+<div th:fragment="header_login">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-grey">
+    <div class="container">
+      <a class="navbar-brand text-secondary" href="/">
+        <img src="https://img.freepik.com/premium-vector/purchase-buy-sharing-car-logo_108855-3744.jpg?w=826" alt="Автомаг" height="80">
+      </a>
+    </div>
+  </nav>
+</div>

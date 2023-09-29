@@ -15,7 +15,6 @@ import ru.job4j.cars.model.User;
 @Order(2)
 public class SessionFilter extends HttpFilter {
 
-
     @Override
     protected void doFilter(HttpServletRequest request, HttpServletResponse response,
                             FilterChain chain) throws IOException, ServletException {

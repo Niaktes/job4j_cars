@@ -99,8 +99,8 @@ public class HibernatePostRepository implements PostRepository {
             post.fetch("images", JoinType.LEFT);
             post.fetch("priceHistories", JoinType.LEFT);
             List<Predicate> predicates = new ArrayList<>();
-            if (car.getModel() != null) {
-                predicates.add(criteriaBuilder.equal(post.get("car").get("model"), car.getModel()));
+            if (car.getCarModel() != null) {
+                predicates.add(criteriaBuilder.equal(post.get("car").get("model"), car.getCarModel()));
             }
             if (car.getBody() != null) {
                 predicates.add(criteriaBuilder.equal(post.get("car").get("body"), car.getBody()));

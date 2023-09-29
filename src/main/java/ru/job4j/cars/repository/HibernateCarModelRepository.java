@@ -3,11 +3,11 @@ package ru.job4j.cars.repository;
 import java.util.Collection;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
-import ru.job4j.cars.model.Model;
+import ru.job4j.cars.model.CarModel;
 
 @Repository
 @AllArgsConstructor
-public class HibernateModelRepository implements ModelRepository {
+public class HibernateCarModelRepository implements CarModelRepository {
 
     private final CrudRepository crudRepository;
 
@@ -16,8 +16,8 @@ public class HibernateModelRepository implements ModelRepository {
      * @return список моделей.
      */
     @Override
-    public Collection<Model> findAll() {
-        return crudRepository.query("FROM Model", Model.class);
+    public Collection<CarModel> findAll() {
+        return crudRepository.query("FROM CarModel", CarModel.class);
     }
 
 }

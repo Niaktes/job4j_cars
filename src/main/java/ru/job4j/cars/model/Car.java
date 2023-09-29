@@ -1,7 +1,5 @@
 package ru.job4j.cars.model;
 
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -23,7 +21,7 @@ public class Car {
 
     @ManyToOne
     @JoinColumn(name = "model_id", foreignKey = @ForeignKey(name = "MODEL_ID_FK"))
-    private Model model;
+    private CarModel carModel;
 
     @ManyToOne
     @JoinColumn(name = "body_id", foreignKey = @ForeignKey(name = "BODY_ID_FK"))

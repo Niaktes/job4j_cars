@@ -36,6 +36,12 @@ public class UserController {
         return "redirect:/";
     }
 
+    @GetMapping("/update")
+    public String getUpdatePage(Model model, HttpSession session) {
+        model.addAttribute("user", session.getAttribute("user"));
+        return "users/update";
+    }
+
     @PostMapping("/register")
     public String register(@ModelAttribute User user, Model model) {
         Optional<User> savedUser = userService.save(user);
@@ -58,6 +64,20 @@ public class UserController {
         HttpSession session = request.getSession();
         session.setAttribute("user", userOptional.get());
         return "redirect:/";
+    }
+
+    @PostMapping("/update")
+    public String updateUser(@ModelAttribute User user, Model model, HttpSession session) {
+        User logonUser = (User) session.getAttribute("user");
+        user.setEmail(logonUser.getEmail());
+        user.setPassword(logonUser.getPassword());
+        boolean updated =  userService.update(user);
+        if (!updated) {
+            model.addAttribute("error", "Ошибка при обновлении данных пользователя.");
+            return "users/update";
+        }
+        session.invalidate();
+        return "redirect:/users/login";
     }
 
 }

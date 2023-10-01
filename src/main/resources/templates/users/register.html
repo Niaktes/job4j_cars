@@ -34,6 +34,7 @@
         <div class="mb-3">
           <label for="phone" class="form-label"><b>Телефон</b></label>
           <input type="tel" class="form-control" id="phone" name="phone" pattern="[0-9]{11}" placeholder="88005553535" required>
+          <small>Формат номера: 89265553535</small>
         </div>
         <div class="mb-3 row">
           <p>Уже есть аккаунт?</p>
@@ -45,8 +46,8 @@
           </div>
         </div>
       </form>
-      <footer th:insert="~{blocks/footer :: footer}"></footer>
     </div>
+    <footer th:insert="~{blocks/footer :: footer}"></footer>
   </div>
 </body>
 </html>

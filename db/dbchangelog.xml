@@ -19,4 +19,12 @@
     <include file="scripts/012_ddl_create_post_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/013_ddl_create_image_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/014_ddl_create_price_history_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/101_dml_insert_brands.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/102_dml_insert_models.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/103_dml_insert_bodies.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/104_dml_insert_fuel_types.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/105_dml_insert_engine_sizes.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/106_dml_insert_transmissions.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/107_dml_insert_colors.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/108_dml_insert_categories.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>

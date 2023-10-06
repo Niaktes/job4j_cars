@@ -2,8 +2,6 @@ package ru.job4j.cars.service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.job4j.cars.dto.ImageDto;
@@ -20,12 +18,12 @@ public class SimplePostService implements PostService {
     private final ImageService imageService;
 
     @Override
-    public Optional<Post> save(Post post, Set<ImageDto> imagesDto) {
-        Set<Image> newImages = imageService.saveImages(imagesDto);
-        post.setImages(newImages);
+    public Optional<Post> save(Post post, ImageDto imageDto) {
+        Image newImage = imageService.saveImage(imageDto);
+        post.setImage(newImage);
         Optional<Post> postOptional = postRepository.save(post);
         if (postOptional.isEmpty()) {
-            imageService.deleteImages(newImages);
+            imageService.deleteImage(newImage);
         }
         return postOptional;
     }
@@ -46,39 +44,36 @@ public class SimplePostService implements PostService {
     }
 
     @Override
-    public boolean update(Post post, Set<ImageDto> imagesDto) {
-        Set<ImageDto> existedImagesDto = imagesDto.stream()
-                .filter(dto -> dto.getContent().length != 0)
-                .collect(Collectors.toSet());
-        Set<Image> oldImages = imageService.getImagesByPostId(post.getId());
-        boolean updated;
-        if (existedImagesDto.isEmpty()) {
-            post.setImages(oldImages);
-            updated = postRepository.update(post);
-        } else {
-            Set<Image> newImages = imageService.saveImages(existedImagesDto);
-            post.setImages(newImages);
-            updated = postRepository.update(post);
-            if (updated) {
-                imageService.deleteImages(oldImages);
-            } else {
-                imageService.deleteImages(newImages);
-            }
+    public boolean update(Post post, ImageDto imageDto) {
+        boolean isNewImageExists = imageDto.getContent().length != 0;
+        if (!isNewImageExists) {
+            return postRepository.update(post);
         }
-        return updated;
+        Optional<Image> oldImage = post.getImage() != null
+                ? imageService.getImageById(post.getImage().getId()) : Optional.empty();
+        Image newImage = imageService.saveImage(imageDto);
+        post.setImage(newImage);
+        boolean isUpdated = postRepository.update(post);
+        if (isUpdated) {
+            oldImage.ifPresent(imageService::deleteImage);
+        } else {
+            imageService.deleteImage(newImage);
+        }
+        return isUpdated;
     }
 
     @Override
     public void delete(Post post) {
-        Set<Image> postImages = imageService.getImagesByPostId(post.getId());
-        imageService.deleteImages(postImages);
+        Optional<Image> postImage = post.getImage() != null
+                ? imageService.getImageById(post.getImage().getId()) : Optional.empty();
+        postImage.ifPresent(imageService::deleteImage);
         postRepository.delete(post);
     }
 
     @Override
-    public List<Post> findAllByCriteria(Car car, boolean imagesExist, int createdDaysBefore,
+    public List<Post> findAllByCriteria(Car car, boolean imageExist, int createdDaysBefore,
                                         long minPrice, long maxPrice) {
-        return postRepository.findAllByCriteria(car, imagesExist, createdDaysBefore, minPrice, maxPrice);
+        return postRepository.findAllByCriteria(car, imageExist, createdDaysBefore, minPrice, maxPrice);
     }
 
 }

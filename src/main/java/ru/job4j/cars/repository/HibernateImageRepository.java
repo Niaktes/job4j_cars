@@ -1,7 +1,7 @@
 package ru.job4j.cars.repository;
 
-import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cars.model.Image;
@@ -27,15 +27,15 @@ public class HibernateImageRepository implements ImageRepository {
     }
 
     /**
-     * Получить из БД все изображения конкретного поста.
-     * @param id ID поста.
-     * @return список изображений.
+     * Получить из БД изображение по id.
+     * @param id ID изображения.
+     * @return изображение.
      */
     @Override
-    public Collection<Image> getImagesByPostId(int id) {
-        return crudRepository.query("FROM Image WHERE post_id = :pId;",
+    public Optional<Image> findById(int id) {
+        return crudRepository.optional("FROM Image WHERE id = :Id;",
                 Image.class,
-                Map.of("pId", id));
+                Map.of("Id", id));
     }
 
 }

@@ -2,14 +2,13 @@ package ru.job4j.cars.service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import ru.job4j.cars.dto.ImageDto;
 import ru.job4j.cars.model.Car;
 import ru.job4j.cars.model.Post;
 
 public interface PostService {
 
-    Optional<Post> save(Post post, Set<ImageDto> imagesDto);
+    Optional<Post> save(Post post, ImageDto imageDto);
 
     Optional<Post> findById(int id);
 
@@ -17,7 +16,7 @@ public interface PostService {
 
     List<Post> findAllByUserId(int id);
 
-    boolean update(Post post, Set<ImageDto> imagesDto);
+    boolean update(Post post, ImageDto imageDto);
 
     void delete(Post post);
 

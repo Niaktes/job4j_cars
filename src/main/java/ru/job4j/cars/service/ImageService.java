@@ -1,7 +1,6 @@
 package ru.job4j.cars.service;
 
-import java.util.Collection;
-import java.util.Set;
+import java.util.Optional;
 import ru.job4j.cars.dto.ImageDto;
 import ru.job4j.cars.model.Image;
 
@@ -9,12 +8,12 @@ public interface ImageService {
 
     ImageDto getDefaultImageDto();
 
-    Set<Image> saveImages(Collection<ImageDto> imagesDto);
+    Optional<ImageDto> getImageDtoById(int id);
 
-    Set<Image> getImagesByPostId(int postId);
+    Optional<Image> getImageById(int id);
 
-    Set<ImageDto> getImagesDto(Collection<Image> images);
+    Image saveImage(ImageDto imageDto);
 
-    void deleteImages(Set<Image> images);
+    void deleteImage(Image image);
 
 }

@@ -1,12 +1,12 @@
 package ru.job4j.cars.repository;
 
-import java.util.Collection;
+import java.util.Optional;
 import ru.job4j.cars.model.Image;
 
 public interface ImageRepository {
 
     Image getDefaultImage();
 
-    Collection<Image> getImagesByPostId(int id);
+    Optional<Image> findById(int id);
 
 }

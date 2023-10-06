@@ -6,5 +6,6 @@ CREATE TABLE post (
     sold            boolean     NOT NULL        DEFAULT FALSE,
     price           bigint      NOT NULL,
     user_id         int         NOT NULL        REFERENCES auto_user(id),
+    image_id        int                         REFERENCES image(id),
     UNIQUE (car_id, user_id)
 );

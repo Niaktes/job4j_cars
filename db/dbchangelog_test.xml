@@ -16,7 +16,7 @@
   <include file="scripts/009_ddl_create_color_table.sql" relativeToChangelogFile="true"/>
   <include file="scripts/010_ddl_create_category_table.sql" relativeToChangelogFile="true"/>
   <include file="scripts/011_ddl_create_car_table.sql" relativeToChangelogFile="true"/>
-  <include file="scripts/012_ddl_create_post_table.sql" relativeToChangelogFile="true"/>
-  <include file="scripts/013_ddl_create_image_table.sql" relativeToChangelogFile="true"/>
+  <include file="scripts/012_ddl_create_image_table.sql" relativeToChangelogFile="true"/>
+  <include file="scripts/013_ddl_create_post_table.sql" relativeToChangelogFile="true"/>
   <include file="scripts/014_ddl_create_price_history_table.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>

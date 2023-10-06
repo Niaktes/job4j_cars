@@ -1,9 +1,6 @@
 package ru.job4j.cars.service;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.job4j.cars.dto.ImageDto;
@@ -25,27 +22,23 @@ public class SimpleImageService implements ImageService {
     }
 
     @Override
-    public Set<Image> getImagesByPostId(int id) {
-        return new HashSet<>(imageRepository.getImagesByPostId(id));
+    public Optional<ImageDto> getImageDtoById(int id) {
+        return imageRepository.findById(id).map(imageUtil :: getImageDto);
     }
 
     @Override
-    public Set<Image> saveImages(Collection<ImageDto> imagesDto) {
-        return imagesDto.stream()
-                .map(imageUtil::saveImage)
-                .collect(Collectors.toSet());
+    public Optional<Image> getImageById(int id) {
+        return imageRepository.findById(id);
     }
 
     @Override
-    public Set<ImageDto> getImagesDto(Collection<Image> images) {
-        return images.stream()
-                .map(imageUtil::getImageDto)
-                .collect(Collectors.toSet());
+    public Image saveImage(ImageDto imageDto) {
+        return imageUtil.saveImage(imageDto);
     }
 
     @Override
-    public void deleteImages(Set<Image> images) {
-        images.forEach(imageUtil::deleteImage);
+    public void deleteImage(Image image) {
+        imageUtil.deleteImage(image);
     }
 
 }

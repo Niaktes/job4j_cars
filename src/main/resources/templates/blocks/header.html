@@ -9,7 +9,8 @@
       </a>
       <div class="collapse navbar-collapse">
         <div class="navbar-nav me-auto">
-          <a class="nav-link text-secondary fs-5 font-monospace" href="/">Все объявления</a>
+          <a class="btn btn-secondary me-2" href="/">Все объявления</a>
+          <a class="btn btn-primary" th:if="${user.id != -1}" th:href="@{/posts/create}">Создать объявление</a>
         </div>
       </div>
       <div class="dropdown d-flex" th:if="${user.id == -1}">

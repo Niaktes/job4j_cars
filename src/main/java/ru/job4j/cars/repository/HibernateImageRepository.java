@@ -33,7 +33,7 @@ public class HibernateImageRepository implements ImageRepository {
      */
     @Override
     public Optional<Image> findById(int id) {
-        return crudRepository.optional("FROM Image WHERE id = :Id;",
+        return crudRepository.optional("FROM Image WHERE id = :Id",
                 Image.class,
                 Map.of("Id", id));
     }

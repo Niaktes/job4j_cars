@@ -13,8 +13,8 @@ public class SimpleCarModelService implements CarModelService {
     private final CarModelRepository carModelRepository;
 
     @Override
-    public Collection<CarModel> findAll() {
-        return carModelRepository.findAll();
+    public Collection<CarModel> findAllByBrandId(int id) {
+        return carModelRepository.findAllByBrandId(id);
     }
 
 }

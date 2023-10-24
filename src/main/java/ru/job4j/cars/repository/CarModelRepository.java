@@ -7,4 +7,6 @@ public interface CarModelRepository {
 
     Collection<CarModel> findAllByBrandId(int id);
 
+    CarModel getById(int id);
+
 }

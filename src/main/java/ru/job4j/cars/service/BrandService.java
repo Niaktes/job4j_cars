@@ -7,4 +7,6 @@ public interface BrandService {
 
     Collection<Brand> findAll();
 
+    Brand getById(int id);
+
 }

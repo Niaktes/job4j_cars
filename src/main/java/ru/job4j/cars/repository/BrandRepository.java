@@ -7,4 +7,6 @@ public interface BrandRepository {
 
     Collection<Brand> findAll();
 
+    Brand getById(int id);
+
 }

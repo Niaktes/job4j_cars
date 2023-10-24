@@ -15,6 +15,11 @@ public class SimpleEngineService implements EngineService {
     private final EngineRepository engineRepository;
 
     @Override
+    public Engine save(Engine engine) {
+        return engineRepository.save(engine).get();
+    }
+
+    @Override
     public Optional<Engine> findByFuelTypeAndSize(FuelType fuelType, EngineSize size) {
         return engineRepository.findByFuelTypeAndSize(fuelType, size);
     }

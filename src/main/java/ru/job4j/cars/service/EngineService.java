@@ -7,6 +7,8 @@ import ru.job4j.cars.model.FuelType;
 
 public interface EngineService {
 
+    Engine save(Engine engine);
+
     Optional<Engine> findByFuelTypeAndSize(FuelType fuelType, EngineSize size);
 
 }

@@ -23,4 +23,14 @@ public class HibernateCarModelRepository implements CarModelRepository {
                 CarModel.class, Map.of("bId", id));
     }
 
+    /**
+     * Получить модель автомобиля по ID.
+     * @param id модели автомобиля.
+     * @return модель автомобиля.
+     */
+    @Override
+    public CarModel getById(int id) {
+        return crudRepository.one("FROM CarModel WHERE id = :cId", CarModel.class, Map.of("cId", id));
+    }
+
 }

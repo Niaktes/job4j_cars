@@ -17,4 +17,9 @@ public class SimpleCarModelService implements CarModelService {
         return carModelRepository.findAllByBrandId(id);
     }
 
+    @Override
+    public CarModel getById(int id) {
+        return carModelRepository.getById(id);
+    }
+
 }

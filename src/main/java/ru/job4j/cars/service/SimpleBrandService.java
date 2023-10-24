@@ -17,4 +17,9 @@ public class SimpleBrandService implements BrandService {
         return brandRepository.findAll();
     }
 
+    @Override
+    public Brand getById(int id) {
+        return brandRepository.getById(id);
+    }
+
 }

@@ -3,7 +3,7 @@ package ru.job4j.cars.service;
 import java.util.List;
 import java.util.Optional;
 import ru.job4j.cars.dto.ImageDto;
-import ru.job4j.cars.model.Car;
+import ru.job4j.cars.dto.PostSearchDto;
 import ru.job4j.cars.model.Post;
 
 public interface PostService {
@@ -20,7 +20,6 @@ public interface PostService {
 
     void delete(Post post);
 
-    List<Post> findAllByCriteria(Car car, boolean imagesExist, int createdDaysBefore, long minPrice,
-                                 long maxPrice);
+    List<Post> findAllByCriteria(PostSearchDto searchDto);
 
 }

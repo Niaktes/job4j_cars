@@ -96,28 +96,28 @@ public class HibernatePostRepository implements PostRepository {
             CriteriaQuery<Post> criteriaQuery = criteriaBuilder.createQuery(Post.class);
             Root<Post> post = criteriaQuery.from(Post.class);
             post.fetch("car", JoinType.LEFT);
-            post.fetch("images", JoinType.LEFT);
+            post.fetch("image", JoinType.LEFT);
             post.fetch("priceHistories", JoinType.LEFT);
             List<Predicate> predicates = new ArrayList<>();
-            if (car.getCarModel() != null) {
+            if (car.getCarModel().getId() > 0) {
                 predicates.add(criteriaBuilder.equal(post.get("car").get("model"), car.getCarModel()));
             }
-            if (car.getBody() != null) {
+            if (car.getBody().getId() > 0) {
                 predicates.add(criteriaBuilder.equal(post.get("car").get("body"), car.getBody()));
             }
-            if (car.getEngine() != null) {
+            if (car.getEngine().getId() > 0) {
                 predicates.add(criteriaBuilder.equal(post.get("car").get("engine"), car.getEngine()));
             }
-            if (car.getTransmission() != null) {
+            if (car.getTransmission().getId() > 0) {
                 predicates.add(criteriaBuilder.equal(
                         post.get("car").get("transmission"),
                         car.getTransmission())
                 );
             }
-            if (car.getColor() != null) {
+            if (car.getColor().getId() > 0) {
                 predicates.add(criteriaBuilder.equal(post.get("car").get("color"), car.getColor()));
             }
-            if (car.getCategory() != null) {
+            if (car.getCategory().getId() > 0) {
                 predicates.add(criteriaBuilder.equal(post.get("car").get("category"), car.getCategory()));
             }
             if (car.getYear() != 0) {
@@ -133,7 +133,7 @@ public class HibernatePostRepository implements PostRepository {
                 );
             }
             if (imagesExist) {
-                predicates.add(criteriaBuilder.isNotEmpty(post.get("photos")));
+                predicates.add(criteriaBuilder.isNotNull(post.get("image")));
             }
             if (createdDaysBefore > 0) {
                 predicates.add(criteriaBuilder.between(

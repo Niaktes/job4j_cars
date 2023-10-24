@@ -5,9 +5,8 @@ import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.job4j.cars.dto.ImageDto;
-import ru.job4j.cars.model.Car;
-import ru.job4j.cars.model.Image;
-import ru.job4j.cars.model.Post;
+import ru.job4j.cars.dto.PostSearchDto;
+import ru.job4j.cars.model.*;
 import ru.job4j.cars.repository.PostRepository;
 
 @Service
@@ -15,14 +14,22 @@ import ru.job4j.cars.repository.PostRepository;
 public class SimplePostService implements PostService {
 
     private final PostRepository postRepository;
+    private final CarModelService carModelService;
+    private final BrandService brandService;
+    private final EngineService engineService;
     private final ImageService imageService;
 
     @Override
     public Optional<Post> save(Post post, ImageDto imageDto) {
-        Image newImage = imageService.saveImage(imageDto);
-        post.setImage(newImage);
+        setBrand(post.getCar());
+        setEngine(post.getCar());
+        Image newImage = null;
+        if (imageDto.getContent().length != 0) {
+            newImage = imageService.saveImage(imageDto);
+            post.setImage(newImage);
+        }
         Optional<Post> postOptional = postRepository.save(post);
-        if (postOptional.isEmpty()) {
+        if (postOptional.isEmpty() && newImage != null) {
             imageService.deleteImage(newImage);
         }
         return postOptional;
@@ -71,9 +78,32 @@ public class SimplePostService implements PostService {
     }
 
     @Override
-    public List<Post> findAllByCriteria(Car car, boolean imageExist, int createdDaysBefore,
-                                        long minPrice, long maxPrice) {
-        return postRepository.findAllByCriteria(car, imageExist, createdDaysBefore, minPrice, maxPrice);
+    public List<Post> findAllByCriteria(PostSearchDto searchDto) {
+        return postRepository.findAllByCriteria(
+                searchDto.getCar(),
+                searchDto.isImageExists(),
+                searchDto.getPostCreatedBeforeDays(),
+                searchDto.getLowestPrice(),
+                searchDto.getHighestPrice());
+    }
+
+    private Car setBrand(Car car) {
+        CarModel carModel = carModelService.getById(car.getCarModel().getId());
+        Brand brand = brandService.getById(carModel.getBrandId());
+        car.setBrand(brand);
+        return car;
+    }
+
+    private Car setEngine(Car car) {
+        Optional<Engine> engineOptional = engineService.findByFuelTypeAndSize(
+                car.getEngine().getFuelType(), car.getEngine().getEngineSize());
+        if (engineOptional.isEmpty()) {
+            Engine engine = engineService.save(car.getEngine());
+            car.setEngine(engine);
+        } else {
+            car.setEngine(engineOptional.get());
+        }
+        return car;
     }
 
 }

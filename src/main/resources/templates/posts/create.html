@@ -32,8 +32,8 @@
               <div class="row">
                 <div class="col-4">
                   <div class="form-group">
-                    <label for="model">Модель автомобиля</label>
-                    <select class="form-control" id="model" name="car.model.id">
+                    <label for="carModel">Модель автомобиля</label>
+                    <select class="form-control" id="carModel" name="car.carModel.id">
                       <optgroup th:each="brand : ${brandsModels.keySet()}" th:label="${brand.name}">
                         <option th:each="model : ${brandsModels.get(brand)}" th:text="${model.name}" th:value="${model.id}"></option>
                       </optgroup>

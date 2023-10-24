@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+  <!--  Зависимости Bootstrap-->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+  <script th:src="@{/js/jquery-3.7.1.min.js}"></script>
+  <script th:src="@{/js/bootstrap.bundle.js}"></script>
+
+  <title>Автомаг</title>
+</head>
+
+<body>
+  <div class="container-fluid p-0">
+    <header th:insert="~{blocks/header :: header_main}"></header>
+    <div class="container col-12">
+
+      <div class="accordion accordion-flush" id="searchAccordion">
+        <div class="accordion-item">
+          <h4 class="accordion-header" id="flush-headingOne">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+              Поиск
+            </button>
+          </h4>
+          <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body">
+              <form th:action="@{/posts/all}">
+                <div class="row">
+                  <div class="col-4">
+                    <div class="form-group">
+                      <label for="carModel">Модель автомобиля</label>
+                      <select class="form-control" id="carModel" name="car.carModel.id">
+                        <option value=0>-</option>
+                        <optgroup th:each="brand : ${brandsModels.keySet()}" th:label="${brand.name}">
+                          <option th:each="model : ${brandsModels.get(brand)}" th:text="${model.name}" th:value="${model.id}"></option>
+                        </optgroup>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="form-group">
+                      <label for="body">Кузов</label>
+                      <select class="form-control" id="body" name="car.body.id">
+                        <option value=0>-</option>
+                        <option th:each="body : ${bodies}" th:text="${body.name}" th:value="${body.id}"></option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="form-group">
+                      <label for="transmission">Трансмиссия</label>
+                      <select class="form-control" id="transmission" name="car.transmission.id">
+                        <option value=0>-</option>
+                        <option th:each="transmission : ${transmissions}" th:text="${transmission.name}" th:value="${transmission.id}"></option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-4">
+                    <div class="form-group">
+                      <label for="color">Цвет</label>
+                      <select class="form-control" id="color" name="car.color.id">
+                        <option value=0>-</option>
+                        <option th:each="color : ${colors}" th:text="${color.name}" th:value="${color.id}"></option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="form-group">
+                      <label for="fuelType">Тип топлива</label>
+                      <select class="form-control" id="fuelType" name="car.engine.fuelType.id">
+                        <option value=0>-</option>
+                        <option th:each="fuelType : ${fuelTypes}" th:text="${fuelType.name}" th:value="${fuelType.id}"></option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-2">
+                    <div class="form-group">
+                      <label for="engineSize">Объем двигателя</label>
+                      <select class="form-control" id="engineSize" name="car.engine.engineSize.id">
+                        <option value=0>-</option>
+                        <option th:each="engineSize : ${engineSizes}" th:text="${engineSize.size}" th:value="${engineSize.id}"></option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-2">
+                    <div class="form-group">
+                      <label for="category">Категория авто</label>
+                      <select class="form-control" id="category" name="car.category.id">
+                        <option value=0>-</option>
+                        <option th:each="category : ${categories}" th:text="${category.name}" th:value="${category.id}"></option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-4">
+                    <div class="form-group">
+                      <label for="year" class="form-label">Год выпуска (не старше)</label>
+                      <input type="number" class="form-control" id="year" name="car.year" value="2050" placeholder="2014">
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="form-group">
+                      <label for="mileage" class="form-label">Пробег (не более)</label>
+                      <input type="number" class="form-control" id="mileage" name="car.mileage" value="0" placeholder="98989">
+                    </div>
+                  </div>
+                  <div class="col-2">
+                    <div class="form-group">
+                      <label for="lowestPrice" class="form-label">Цена от</label>
+                      <input type="number" class="form-control" id="lowestPrice" name="lowestPrice" value="0" placeholder="10000">
+                    </div>
+                  </div>
+                  <div class="col-2">
+                    <div class="form-group">
+                      <label for="highestPrice" class="form-label">Цена до</label>
+                      <input type="number" class="form-control" id="highestPrice" name="highestPrice" value="0" placeholder="7000000">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-4">
+                      <div class="form-group">
+                        <label for="createdBefore" class="form-label">Объявление за .. последних дней</label>
+                        <input type="number" class="form-control" id="createdBefore" name="postCreatedBeforeDays" value="0" placeholder="7">
+                      </div>
+                    </div>
+                    <div class="col-4 position-relative">
+                      <div class="form-group position-absolute top-50 start-50 translate-middle">
+                        <input type="checkbox" id="imageExists" name="imageExists" class="form-check-input">
+                        <label for="imageExists" class="fs-6">Только с фото</label><br>
+                      </div>
+                    </div>
+                    <div class="col-4 position-relative">
+                      <button class="btn btn-primary w-50 position-absolute top-50 start-50 translate-middle" type="submit">Поиск</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div th:each="post: ${posts}">
+        <div class="row border border-secondary rounded">
+          <div class="mb-2"></div>
+          <div class="col-3">
+            <a th:href="@{/posts/{id}(id=${post.id})}">
+              <img th:src="@{/images/{imageId}(imageId=${post.image.id})}" style="height:250px; object-fit: contain;" class="rounded mx-auto d-block">
+            </a>
+          </div>
+          <div class="col-9">
+            <div class="row">
+              <div class="text-center col-10">
+                <a th:href="@{/posts/{id}(id=${post.id})}">
+                  <span class="fs-5" th:text="${post.car.brand.name} + ' ' + ${post.car.carModel.name}"></span>
+                </a>
+              </div>
+              <div class="text-end col-2">
+                <span th:text="${post.price} + 'р'"></span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="text-center col-6">
+                <span th:text="'Двигатель: ' + ${post.car.engine.fuelType.name} + ' ' + ${post.car.engine.engineSize.size} + 'л'"></span>
+              </div>
+              <div class="text-center col-6">
+                <span th:text="'Коробка: ' + ${post.car.transmission.name}"></span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="text-center col-6">
+                <span th:text="'Кузов: ' + ${post.car.body.name} + ' (кат. ' + ${post.car.category.name} + ')'"></span>
+              </div>
+              <div class="text-center col-6">
+                <span th:text="'Цвет: ' + ${post.car.color.name}"></span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="text-center col-6">
+                <span th:text="'Год выпуска: ' + ${post.car.year}"></span>
+              </div>
+              <div class="text-center col-6">
+                <span th:text="'Пробег: ' + ${post.car.mileage}"></span>
+              </div>
+            </div>
+            <span class="fs-6"><b>Описание:</b></span>
+            <span th:text="${post.description}" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;"></span>
+          </div>
+          <div class="mb-2"></div>
+        </div>
+      </div>
+    </div>
+    <footer th:insert="~{blocks/footer :: footer}"></footer>
+  </div>
+</body>
+</html>

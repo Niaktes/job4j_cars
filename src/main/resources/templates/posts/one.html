@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+  <!--  Зависимости Bootstrap-->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+  <script th:src="@{/js/jquery-3.7.1.min.js}"></script>
+  <script th:src="@{/js/bootstrap.bundle.js}"></script>
+
+  <title>Автомаг</title>
+</head>
+
+<body>
+  <div class="container-fluid p-0">
+    <header th:insert="~{blocks/header :: header_main}"></header>
+    <div class="container col-12">
+      <div class="row border border-secondary rounded">
+        <div class="mb-2"></div>
+        <div class="row">
+          <div class="col-8">
+            <img th:src="@{/images/{imageId}(imageId=${post.image.id})}" style="height:700px; object-fit: contain;" class="rounded mx-auto d-block">
+          </div>
+          <div class="col-4">
+            <strong>Марка: </strong><span th:text="${post.car.brand.name}"></span></br>
+            <strong>Модель: </strong><span th:text="${post.car.carModel.name}"></span></br>
+            <strong>Кузов: </strong><span th:text="${post.car.body.name}"></span></br>
+            <strong>Цвет: </strong><span th:text="${post.car.color.name}"></span></br>
+            <strong>Двигатель: </strong><span th:text="${post.car.engine.fuelType.name} + ' ' + ${post.car.engine.engineSize.size} + 'л'"></span></br>
+            <strong>Категория: </strong><span th:text="${post.car.category.name}"></span></br>
+            <strong>Год выпуска: </strong><span th:text="${post.car.year}"></span></br>
+            <strong>Пробег: </strong><span th:text="${post.car.mileage}"></span></br>
+            <strong>Стоимость: </strong><span th:text="${post.price} + 'р'"></span></br>
+            <strong>Объявление создано: </strong><span th:text="${#temporals.format(post.created, 'dd-MM-yyyy')}"></span></br>
+            <div class="accordion accordion-flush" id="hiddenPart">
+              <div class="accordion-item">
+                <h5 class="accordion-header" id="headingOne">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                    <strong>Vin-номер</strong>
+                  </button>
+                </h5>
+                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#hiddenPart">
+                  <div class="accordion-body">
+                    <span th:text="${post.car.vin}"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h5 class="accordion-header" id="headingTwo">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    <strong>Телефон для связи</strong>
+                  </button>
+                </h5>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#hiddenPart">
+                  <div class="accordion-body">
+                    <span th:text="${post.user.phone}"></span></br>
+                    <span th:text="${post.user.name}"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </dl>
+          </div>
+        </div>
+        <div class="row">
+          <p class="lh-sm" th:text="${post.description}"></p>
+        </div>
+        <div class="mb-2"></div>
+      </div>
+    </div>
+    <footer th:insert="~{blocks/footer :: footer}"></footer>
+  </div>
+</body>
+</html>

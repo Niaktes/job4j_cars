@@ -21,14 +21,9 @@ public class ImageController {
     public ResponseEntity<?> getImageById(@PathVariable int id) {
         Optional<ImageDto> imageDtoOptional = imageService.getImageDtoById(id);
         if (imageDtoOptional.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.ok(imageService.getDefaultImageDto().getContent());
         }
         return ResponseEntity.ok(imageDtoOptional.get().getContent());
-    }
-
-    @GetMapping("/defaultImage")
-    public ResponseEntity<?> getDefaultImage() {
-        return ResponseEntity.ok(imageService.getDefaultImageDto().getContent());
     }
 
 }

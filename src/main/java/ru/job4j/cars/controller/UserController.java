@@ -6,11 +6,9 @@ import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.job4j.cars.model.User;
+import ru.job4j.cars.service.PostService;
 import ru.job4j.cars.service.UserService;
 
 @Controller
@@ -19,6 +17,7 @@ import ru.job4j.cars.service.UserService;
 public class UserController {
 
     private final UserService userService;
+    private final PostService postService;
 
     @GetMapping("/register")
     public String getRegistrationPage() {
@@ -78,6 +77,19 @@ public class UserController {
         }
         session.invalidate();
         return "redirect:/users/login";
+    }
+
+    @PostMapping("/delete")
+    public String deleteUser(@RequestParam String password, Model model, HttpSession session) {
+        User actualUser = (User) session.getAttribute("user");
+        if (!password.equals(actualUser.getPassword())) {
+            model.addAttribute("error", "Введенный пароль не совпадает с паролем пользователя.");
+            return "users/update";
+        }
+        session.invalidate();
+        postService.deleteAllByUser(actualUser);
+        userService.deleteByEmailAndPassword(actualUser.getEmail(), actualUser.getPassword());
+        return "redirect:/";
     }
 
 }

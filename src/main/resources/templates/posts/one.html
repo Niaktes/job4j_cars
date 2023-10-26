@@ -20,7 +20,8 @@
         <div class="mb-2"></div>
         <div class="row">
           <div class="col-8">
-            <img th:src="@{/images/{imageId}(imageId=${post.image.id})}" style="height:700px; object-fit: contain;" class="rounded mx-auto d-block">
+            <img th:if="${post.image != null}" th:src="@{/images/{imageId}(imageId=${post.image.id})}" style="height:700px; width: 850px; object-fit: contain;" class="rounded mx-auto d-block">
+            <img th:if="${post.image == null}" th:src="@{/images/defaultImage}" style="height:700px; width: 850px; object-fit: contain;" class="rounded mx-auto d-block">
           </div>
           <div class="col-4">
             <strong>Марка: </strong><span th:text="${post.car.brand.name}"></span></br>
@@ -28,6 +29,7 @@
             <strong>Кузов: </strong><span th:text="${post.car.body.name}"></span></br>
             <strong>Цвет: </strong><span th:text="${post.car.color.name}"></span></br>
             <strong>Двигатель: </strong><span th:text="${post.car.engine.fuelType.name} + ' ' + ${post.car.engine.engineSize.size} + 'л'"></span></br>
+            <strong>Коробка: </strong><span th:text="${post.car.transmission.name}"></span></br>
             <strong>Категория: </strong><span th:text="${post.car.category.name}"></span></br>
             <strong>Год выпуска: </strong><span th:text="${post.car.year}"></span></br>
             <strong>Пробег: </strong><span th:text="${post.car.mileage}"></span></br>

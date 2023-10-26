@@ -8,7 +8,7 @@ public interface ImageService {
 
     ImageDto getDefaultImageDto();
 
-    Optional<ImageDto> getImageDtoById(int id);
+    ImageDto getImageDtoById(int id);
 
     Optional<Image> getImageById(int id);
 

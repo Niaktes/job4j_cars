@@ -71,10 +71,15 @@ public class SimplePostService implements PostService {
 
     @Override
     public void delete(Post post) {
-        Optional<Image> postImage = post.getImage() != null
-                ? imageService.getImageById(post.getImage().getId()) : Optional.empty();
-        postImage.ifPresent(imageService::deleteImage);
+        deletePostsImage(post);
         postRepository.delete(post);
+    }
+
+    @Override
+    public void deleteAllByUser(User user) {
+        List<Post> posts = postRepository.findAllByUserId(user.getId());
+        posts.forEach(this::deletePostsImage);
+        postRepository.deleteAllByUser(user);
     }
 
     @Override
@@ -104,6 +109,12 @@ public class SimplePostService implements PostService {
             car.setEngine(engineOptional.get());
         }
         return car;
+    }
+
+    private void deletePostsImage(Post post) {
+        Optional<Image> postImage = post.getImage() != null
+                ? imageService.getImageById(post.getImage().getId()) : Optional.empty();
+        postImage.ifPresent(imageService::deleteImage);
     }
 
 }

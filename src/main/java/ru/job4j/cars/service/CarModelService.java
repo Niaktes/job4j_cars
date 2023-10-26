@@ -5,7 +5,7 @@ import ru.job4j.cars.model.CarModel;
 
 public interface CarModelService {
 
-    Collection<CarModel> findAllByBrandId(int id);
+    Collection<CarModel> findAll();
 
     CarModel getById(int id);
 

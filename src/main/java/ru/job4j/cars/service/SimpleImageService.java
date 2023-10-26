@@ -17,13 +17,12 @@ public class SimpleImageService implements ImageService {
 
     @Override
     public ImageDto getDefaultImageDto() {
-        Image image = imageRepository.getDefaultImage();
-        return imageUtil.getImageDto(image);
+        return imageUtil.getImageDto(imageRepository.getDefaultImage());
     }
 
     @Override
-    public Optional<ImageDto> getImageDtoById(int id) {
-        return imageRepository.findById(id).map(imageUtil :: getImageDto);
+    public ImageDto getImageDtoById(int id) {
+        return imageUtil.getImageDto(imageRepository.findById(id).get());
     }
 
     @Override

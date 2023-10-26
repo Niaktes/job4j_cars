@@ -10,6 +10,8 @@ import ru.job4j.cars.model.Image;
 @AllArgsConstructor
 public class HibernateImageRepository implements ImageRepository {
 
+    private static final String DEFAULT_PHOTO_NAME = "defaultPhoto.png";
+
     private final CrudRepository crudRepository;
 
     /**
@@ -18,11 +20,10 @@ public class HibernateImageRepository implements ImageRepository {
      */
     @Override
     public Image getDefaultImage() {
-        String defaultName = "default";
         return crudRepository.one(
                 "FROM Image WHERE name = :iName",
                 Image.class,
-                Map.of("iName", defaultName)
+                Map.of("iName", DEFAULT_PHOTO_NAME)
         );
     }
 

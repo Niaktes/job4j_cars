@@ -55,7 +55,7 @@ public class HibernatePostRepository implements PostRepository {
      */
     @Override
     public List<Post> findAllByUserId(int id) {
-        return crudRepository.query("FROM Post WHERE auto_user_id = :uId",
+        return crudRepository.query("FROM Post WHERE user_id = :uId",
                 Post.class,
                 Map.of("uId", id));
     }
@@ -79,6 +79,11 @@ public class HibernatePostRepository implements PostRepository {
         crudRepository.run(session -> session.delete(post));
     }
 
+    @Override
+    public void deleteAllByUser(User user) {
+        crudRepository.run("DELETE Post WHERE user = :user", Map.of("user", user));
+    }
+
     /**
      * Найти все посты по определенным критериям.
      * @param car критерии автомобиля.
@@ -100,7 +105,7 @@ public class HibernatePostRepository implements PostRepository {
             post.fetch("priceHistories", JoinType.LEFT);
             List<Predicate> predicates = new ArrayList<>();
             if (car.getCarModel().getId() > 0) {
-                predicates.add(criteriaBuilder.equal(post.get("car").get("model"), car.getCarModel()));
+                predicates.add(criteriaBuilder.equal(post.get("car").get("carModel"), car.getCarModel()));
             }
             if (car.getBody().getId() > 0) {
                 predicates.add(criteriaBuilder.equal(post.get("car").get("body"), car.getBody()));
@@ -121,7 +126,7 @@ public class HibernatePostRepository implements PostRepository {
                 predicates.add(criteriaBuilder.equal(post.get("car").get("category"), car.getCategory()));
             }
             if (car.getYear() != 0) {
-                predicates.add(criteriaBuilder.greaterThanOrEqualTo(
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(
                         post.get("car").get("year"),
                         car.getYear())
                 );

@@ -1,10 +1,7 @@
 package ru.job4j.cars.controller;
 
 import java.io.IOException;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -77,9 +74,12 @@ public class PostController {
     }
 
     private Model addFormAttributesToModel(Model model) {
+        Collection<CarModel> carModels = carModelService.findAll();
         Map<Brand, List<CarModel>> brandsModels = new LinkedHashMap<>();
-        brandService.findAll().forEach(brand -> brandsModels.put(
-                brand, carModelService.findAllByBrandId(brand.getId()).stream().toList()));
+        brandService.findAll().forEach(brand ->
+                brandsModels.put(
+                        brand,
+                        carModels.stream().filter(cm -> cm.getBrandId() == brand.getId()).toList()));
         model.addAttribute("brandsModels", brandsModels);
         model.addAttribute("bodies", bodyService.findAll());
         model.addAttribute("transmissions", transmissionService.findAll());

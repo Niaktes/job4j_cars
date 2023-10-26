@@ -13,14 +13,12 @@ public class HibernateCarModelRepository implements CarModelRepository {
     private final CrudRepository crudRepository;
 
     /**
-     * Получить из БД все модели автомобилей по ID бренда.
-     * @param id ID бренда
+     * Получить из БД все модели автомобилей.
      * @return список моделей.
      */
     @Override
-    public Collection<CarModel> findAllByBrandId(int id) {
-        return crudRepository.query("FROM CarModel WHERE brand_id = :bId",
-                CarModel.class, Map.of("bId", id));
+    public Collection<CarModel> findAll() {
+        return crudRepository.query("FROM CarModel", CarModel.class);
     }
 
     /**

@@ -5,6 +5,7 @@ import java.util.Optional;
 import ru.job4j.cars.dto.ImageDto;
 import ru.job4j.cars.dto.PostSearchDto;
 import ru.job4j.cars.model.Post;
+import ru.job4j.cars.model.User;
 
 public interface PostService {
 
@@ -19,6 +20,8 @@ public interface PostService {
     boolean update(Post post, ImageDto imageDto);
 
     void delete(Post post);
+
+    void deleteAllByUser(User user);
 
     List<Post> findAllByCriteria(PostSearchDto searchDto);
 

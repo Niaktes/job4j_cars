@@ -17,6 +17,7 @@
     <header th:insert="~{blocks/header :: header_main}"></header>
     <div class="container col-12">
 
+    <!-- Accordion search form -->
       <div class="accordion accordion-flush" id="searchAccordion">
         <div class="accordion-item">
           <h4 class="accordion-header" id="flush-headingOne">
@@ -145,6 +146,7 @@
         </div>
       </div>
 
+    <!-- Posts list -->
       <div th:each="post: ${posts}">
         <div class="row border border-secondary rounded">
           <div class="mb-1"></div>

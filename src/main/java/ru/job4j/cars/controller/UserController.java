@@ -41,6 +41,13 @@ public class UserController {
         return "users/update";
     }
 
+    @GetMapping("posts")
+    public String getUsersPosts(Model model, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        model.addAttribute("posts", postService.findAllByUserId(user.getId()));
+        return "users/posts";
+    }
+
     @PostMapping("/register")
     public String register(@ModelAttribute User user, Model model) {
         Optional<User> savedUser = userService.save(user);

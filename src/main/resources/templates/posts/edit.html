@@ -114,9 +114,9 @@
                 </div>
               </div>
             </div>
-            <img th:if="${post.image != null}" th:src="@{/images/{imageId}(imageId=${post.image.id})}" style="height:200px; width: 250px; object-fit: contain;" class="rounded mx-auto d-block">
+            <img th:if="${post.image.id != 0}" th:src="@{/images/{imageId}(imageId=${post.image.id})}" style="height:200px; width:250px; object-fit: contain;" class="rounded mx-auto d-block">
             <div class="mb-3">
-              <label for="formFile">Заменить фото:</label>
+              <label for="formFile">Загрузить фото (старое будет удалено):</label>
               <input class="form-control form-control-sm w-100" type="file" id="formFile" name="file">
             </div>
             <div class="form-group">

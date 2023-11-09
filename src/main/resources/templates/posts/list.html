@@ -152,7 +152,7 @@
           <div class="mb-1"></div>
           <div class="col-3 px-1">
             <a th:href="@{/posts/{id}(id=${post.id})}">
-              <img th:if="${post.image != null}" th:src="@{/images/{imageId}(imageId=${post.image.id})}" style="height:250px; object-fit: contain;" class="rounded mx-auto d-block">
+              <img th:if="${post.image != null}" th:src="@{/images/{imageId}(imageId=${post.image.id})}" style="height:250px; width:340px; object-fit: contain;" class="rounded mx-auto d-block">
               <img th:if="${post.image == null}" th:src="@{/images/defaultImage}" style="height:250px; object-fit: contain;" class="rounded mx-auto d-block">
             </a>
           </div>

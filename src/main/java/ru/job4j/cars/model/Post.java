@@ -37,7 +37,7 @@ public class Post {
 
     private long price;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "post_id")
     private Set<PriceHistory> priceHistories = new HashSet<>();
 

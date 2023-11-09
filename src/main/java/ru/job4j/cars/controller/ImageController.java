@@ -16,12 +16,12 @@ public class ImageController {
     private final ImageService imageService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getImageById(@PathVariable int id) {
+    public ResponseEntity<byte[]> getImageById(@PathVariable int id) {
         return ResponseEntity.ok(imageService.getImageDtoById(id).getContent());
     }
 
     @GetMapping("/defaultImage")
-    public ResponseEntity<?> getDefaultImage() {
+    public ResponseEntity<byte[]> getDefaultImage() {
         return ResponseEntity.ok(imageService.getDefaultImageDto().getContent());
     }
 

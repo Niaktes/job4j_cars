@@ -1,7 +1,6 @@
 package ru.job4j.cars.service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.job4j.cars.dto.ImageDto;
@@ -18,6 +17,7 @@ public class SimplePostService implements PostService {
     private final BrandService brandService;
     private final EngineService engineService;
     private final ImageService imageService;
+    private final PriceHistoryService priceHistoryService;
 
     @Override
     public Optional<Post> save(Post post, ImageDto imageDto) {
@@ -28,6 +28,7 @@ public class SimplePostService implements PostService {
             newImage = imageService.saveImage(imageDto);
             post.setImage(newImage);
         }
+        addPriceHistory(post);
         Optional<Post> postOptional = postRepository.save(post);
         if (postOptional.isEmpty() && newImage != null) {
             imageService.deleteImage(newImage);
@@ -52,14 +53,23 @@ public class SimplePostService implements PostService {
 
     @Override
     public boolean update(Post post, ImageDto imageDto) {
+        setBrand(post.getCar());
+        setEngine(post.getCar());
         boolean isNewImageExists = imageDto.getContent().length != 0;
-        if (!isNewImageExists) {
-            return postRepository.update(post);
-        }
         Optional<Image> oldImage = post.getImage() != null
                 ? imageService.getImageById(post.getImage().getId()) : Optional.empty();
+        if (!isNewImageExists) {
+            oldImage.ifPresent(post::setImage);
+            return postRepository.update(post);
+        }
         Image newImage = imageService.saveImage(imageDto);
         post.setImage(newImage);
+        post.setPriceHistories(priceHistoryService.getPriceHistoriesByPostId(post.getId()));
+        PriceHistory lastPrice = Collections.max(post.getPriceHistories(),
+                Comparator.comparing(PriceHistory::getDate));
+        if (post.getPrice() != lastPrice.getPrice()) {
+            addPriceHistory(post);
+        }
         boolean isUpdated = postRepository.update(post);
         if (isUpdated) {
             oldImage.ifPresent(imageService::deleteImage);
@@ -115,6 +125,13 @@ public class SimplePostService implements PostService {
         Optional<Image> postImage = post.getImage() != null
                 ? imageService.getImageById(post.getImage().getId()) : Optional.empty();
         postImage.ifPresent(imageService::deleteImage);
+    }
+
+    private Post addPriceHistory(Post post) {
+        PriceHistory newPriceHistory = new PriceHistory();
+        newPriceHistory.setPrice(post.getPrice());
+        post.getPriceHistories().add(newPriceHistory);
+        return post;
     }
 
 }

@@ -55,11 +55,23 @@ public class PostController {
     public String getById(Model model, @PathVariable int id) {
         Optional<Post> postOptional = postService.findById(id);
         if (postOptional.isEmpty()) {
-            model.addAttribute("message", "Объявление с указанным id не найдено.");
+            model.addAttribute("message", "Объявление не найдено.");
             return "errors/404";
         }
         model.addAttribute("post", postOptional.get());
         return "posts/one";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String getEditPage(Model model, @PathVariable int id) {
+        Optional<Post> postOptional = postService.findById(id);
+        if (postOptional.isEmpty()) {
+            model.addAttribute("message", "Объявление не найдено.");
+            return "errors/404";
+        }
+        addFormAttributesToModel(model);
+        model.addAttribute("post", postOptional.get());
+        return "posts/edit";
     }
 
     @PostMapping("/create")
@@ -71,6 +83,21 @@ public class PostController {
             return "errors/404";
         }
         return "redirect:/posts/all";
+    }
+
+    @PostMapping("/edit")
+    public String editPost(@ModelAttribute Post post, @RequestParam MultipartFile file, Model model) {
+        try {
+            boolean isUpdated = postService.update(post,
+                    new ImageDto(file.getOriginalFilename(), file.getBytes()));
+            if (!isUpdated) {
+                model.addAttribute("message", "Произошла ошибка при обновлении объявления.");
+            }
+        } catch (IOException e) {
+            model.addAttribute("message", "Ошибка при обновлении объявления!");
+            return "errors/404";
+        }
+        return "redirect:/users/posts";
     }
 
     private Model addFormAttributesToModel(Model model) {

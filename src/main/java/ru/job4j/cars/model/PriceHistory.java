@@ -21,6 +21,6 @@ public class PriceHistory {
     private long price;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
-    private LocalDateTime date;
+    private LocalDateTime date = LocalDateTime.now();
 
 }

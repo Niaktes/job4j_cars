@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+  <!--  Зависимости Bootstrap-->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+  <script th:src="@{/js/jquery-3.7.1.min.js}"></script>
+  <script th:src="@{/js/bootstrap.bundle.js}"></script>
+
+  <title>Редактирование объявления</title>
+</head>
+
+<body>
+  <div class="container-fluid p-0">
+    <header th:insert="~{blocks/header :: header_main}"></header>
+    <div class="container col-12">
+      <div class="card" style="width: 100%">
+        <div class="card-header">
+          Редактирование объявления
+        </div>
+        <div class="card-body">
+          <form th:action="@{/posts/edit}" method="POST" th:object="${post}" enctype="multipart/form-data">
+            <input type="hidden" name="id" th:value="*{id}"/>
+            <input type="hidden" name="user.id" th:value="*{user.id}"/>
+            <input type="hidden" name="car.id" th:value="*{car.id}"/>
+            <input type="hidden" name="car.brand.id" th:value="*{car.brand.id}"/>
+            <input type="hidden" name="image.id" th:field="*{image.id}"/>
+            <div class="card-header">
+              Параметры автомобиля
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-4">
+                  <div class="form-group">
+                    <label for="carModel">Модель автомобиля</label>
+                    <select class="form-control" id="carModel" name="car.carModel.id">
+                      <optgroup th:each="brand : ${brandsModels.keySet()}" th:label="${brand.name}">
+                        <option th:each="model : ${brandsModels.get(brand)}" th:text="${model.name}" th:value="${model.id}" th:selected="${model.id == post.car.carModel.id}"></option>
+                      </optgroup>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="form-group">
+                    <label for="body">Кузов</label>
+                    <select class="form-control" id="body" name="car.body.id">
+                      <option th:each="body : ${bodies}" th:text="${body.name}" th:value="${body.id}" th:selected="${body.id == post.car.body.id}"></option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="form-group">
+                    <label for="transmission">Трансмиссия</label>
+                    <select class="form-control" id="transmission" name="car.transmission.id">
+                      <option th:each="transmission : ${transmissions}" th:text="${transmission.name}" th:value="${transmission.id}" th:selected="${transmission.id == post.car.transmission.id}"></option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-4">
+                  <div class="form-group">
+                    <label for="color">Цвет</label>
+                    <select class="form-control" id="color" name="car.color.id">
+                      <option th:each="color : ${colors}" th:text="${color.name}" th:value="${color.id}" th:selected="${color.id == post.car.color.id}"></option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="form-group">
+                    <label for="fuelType">Тип топлива</label>
+                    <select class="form-control" id="fuelType" name="car.engine.fuelType.id">
+                      <option th:each="fuelType : ${fuelTypes}" th:text="${fuelType.name}" th:value="${fuelType.id}" th:selected="${fuelType.id == post.car.engine.fuelType.id}"></option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-2">
+                  <div class="form-group">
+                    <label for="engineSize">Объем двигателя</label>
+                    <select class="form-control" id="engineSize" name="car.engine.engineSize.id">
+                      <option th:each="engineSize : ${engineSizes}" th:text="${engineSize.size}" th:value="${engineSize.id}" th:selected="${engineSize.id == post.car.engine.engineSize.id}"></option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-2">
+                  <div class="form-group">
+                    <label for="category">Категория авто</label>
+                    <select class="form-control" id="category" name="car.category.id">
+                      <option th:each="category : ${categories}" th:text="${category.name}" th:value="${category.id}" th:selected="${category.id == post.car.category.id}"></option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-4">
+                  <div class="form-group">
+                    <label for="year" class="form-label">Год выпуска</label>
+                    <input type="number" class="form-control" id="year" name="car.year" th:field="*{car.year}" required>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="form-group">
+                    <label for="mileage" class="form-label">Пробег</label>
+                    <input type="number" class="form-control" id="mileage" name="car.mileage" th:field="*{car.mileage}" required>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="form-group">
+                    <label for="vin" class="form-label">Vin-номер</label>
+                    <input type="text" class="form-control" id="vin" name="car.vin" th:field="*{car.vin}" required>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <img th:if="${post.image != null}" th:src="@{/images/{imageId}(imageId=${post.image.id})}" style="height:200px; width: 250px; object-fit: contain;" class="rounded mx-auto d-block">
+            <div class="mb-3">
+              <label for="formFile">Заменить фото:</label>
+              <input class="form-control form-control-sm w-100" type="file" id="formFile" name="file">
+            </div>
+            <div class="form-group">
+              <label for="description" class="form-label">Описание объявления</label>
+              <textarea class="form-control" id="description" name="description" rows="12" th:field="*{description}" required></textarea>
+            </div>
+            <div class="form-group mt-3">
+              <label for="price" class="form-label">Цена</label>
+              <input type="number" class="form-control" id="price" name="price" th:field="*{price}" required>
+            </div>
+            <div class="mb-3">
+              <input type="checkbox" id="sold" name="sold" class="form-check-input" th:field="*{sold}">
+              <label for="sold" class="fs-6"><b> Продано</b></label><br>
+            </div>
+            <div class="row mt-3">
+              <div class="col-6 d-grid gap-2">
+                <input type="reset" class="btn btn-danger" value="Сбросить изменения">
+              </div>
+              <div class="col-6 d-grid gap-2">
+                <button class="btn btn-primary w-60" type="submit">Отредактировать</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <footer th:insert="~{blocks/footer :: footer}"></footer>
+  </div>
+</body>
+</html>

@@ -9,4 +9,6 @@ public interface ImageRepository {
 
     Optional<Image> findById(int id);
 
+    void delete(Image image);
+
 }

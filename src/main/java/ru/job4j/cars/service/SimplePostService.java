@@ -14,6 +14,7 @@ public class SimplePostService implements PostService {
 
     private final PostRepository postRepository;
     private final CarModelService carModelService;
+    private final CarService carService;
     private final BrandService brandService;
     private final EngineService engineService;
     private final ImageService imageService;
@@ -55,6 +56,13 @@ public class SimplePostService implements PostService {
     public boolean update(Post post, ImageDto imageDto) {
         setBrand(post.getCar());
         setEngine(post.getCar());
+        post.setPriceHistories(priceHistoryService.getPriceHistoriesByPostId(post.getId()));
+        PriceHistory lastPrice = Collections.max(post.getPriceHistories(),
+                Comparator.comparing(PriceHistory::getDate));
+        if (post.getPrice() != lastPrice.getPrice()) {
+            addPriceHistory(post);
+        }
+
         boolean isNewImageExists = imageDto.getContent().length != 0;
         Optional<Image> oldImage = post.getImage() != null
                 ? imageService.getImageById(post.getImage().getId()) : Optional.empty();
@@ -64,12 +72,6 @@ public class SimplePostService implements PostService {
         }
         Image newImage = imageService.saveImage(imageDto);
         post.setImage(newImage);
-        post.setPriceHistories(priceHistoryService.getPriceHistoriesByPostId(post.getId()));
-        PriceHistory lastPrice = Collections.max(post.getPriceHistories(),
-                Comparator.comparing(PriceHistory::getDate));
-        if (post.getPrice() != lastPrice.getPrice()) {
-            addPriceHistory(post);
-        }
         boolean isUpdated = postRepository.update(post);
         if (isUpdated) {
             oldImage.ifPresent(imageService::deleteImage);
@@ -82,6 +84,7 @@ public class SimplePostService implements PostService {
     @Override
     public void delete(Post post) {
         deletePostsImage(post);
+        carService.delete(post.getCar());
         postRepository.delete(post);
     }
 
@@ -89,6 +92,7 @@ public class SimplePostService implements PostService {
     public void deleteAllByUser(User user) {
         List<Post> posts = postRepository.findAllByUserId(user.getId());
         posts.forEach(this::deletePostsImage);
+        posts.forEach(p -> carService.delete(p.getCar()));
         postRepository.deleteAllByUser(user);
     }
 

@@ -39,4 +39,13 @@ public class HibernateImageRepository implements ImageRepository {
                 Map.of("Id", id));
     }
 
+    /**
+     * Удалить изображение из БД
+     * @param image изображение.
+     */
+    @Override
+    public void delete(Image image) {
+        crudRepository.run(session -> session.delete(image));
+    }
+
 }

@@ -22,12 +22,12 @@ public class Post {
     private String description;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "car_id")
+    @JoinColumn(name = "car_id", foreignKey = @ForeignKey(name = "CAR_ID_FK"))
     @EqualsAndHashCode.Include
     private Car car;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "image_id")
+    @JoinColumn(name = "image_id", foreignKey = @ForeignKey(name = "IMAGE_ID_FK"))
     private Image image;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
@@ -37,7 +37,7 @@ public class Post {
 
     private long price;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "post_id")
     private Set<PriceHistory> priceHistories = new HashSet<>();
 

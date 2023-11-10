@@ -37,6 +37,7 @@ public class SimpleImageService implements ImageService {
 
     @Override
     public void deleteImage(Image image) {
+        imageRepository.delete(image);
         imageUtil.deleteImage(image);
     }
 

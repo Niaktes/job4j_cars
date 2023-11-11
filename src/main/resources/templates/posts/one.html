@@ -23,6 +23,8 @@
             <img th:if="${post.image != null}" th:src="@{/images/{imageId}(imageId=${post.image.id})}" style="height:700px; width: 850px; object-fit: contain;" class="rounded mx-auto d-block">
             <img th:if="${post.image == null}" th:src="@{/images/defaultImage}" style="height:700px; width: 850px; object-fit: contain;" class="rounded mx-auto d-block">
           </div>
+
+        <!-- Sidebar with car and post data. -->
           <div class="col-4">
             <strong>Марка: </strong><span th:text="${post.car.brand.name}"></span></br>
             <strong>Модель: </strong><span th:text="${post.car.carModel.name}"></span></br>
@@ -74,8 +76,8 @@
                 </div>
               </div>
             </div>
-            </dl>
           </div>
+
         </div>
         <div class="row">
           <p class="lh-sm" th:text="${post.description}"></p>

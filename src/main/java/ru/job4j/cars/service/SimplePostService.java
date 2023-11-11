@@ -82,13 +82,6 @@ public class SimplePostService implements PostService {
     }
 
     @Override
-    public void delete(Post post) {
-        deletePostsImage(post);
-        carService.delete(post.getCar());
-        postRepository.delete(post);
-    }
-
-    @Override
     public void deleteAllByUser(User user) {
         List<Post> posts = postRepository.findAllByUserId(user.getId());
         posts.forEach(this::deletePostsImage);

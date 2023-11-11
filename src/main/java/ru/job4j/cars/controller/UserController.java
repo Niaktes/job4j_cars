@@ -41,7 +41,7 @@ public class UserController {
         return "users/update";
     }
 
-    @GetMapping("posts")
+    @GetMapping("/posts")
     public String getUsersPosts(Model model, HttpSession session) {
         User user = (User) session.getAttribute("user");
         model.addAttribute("posts", postService.findAllByUserId(user.getId()));

@@ -10,6 +10,10 @@ public class HibernateCarRepository implements CarRepository {
 
     private final CrudRepository crudRepository;
 
+    /**
+     * Удалить автомобиль из БД.
+     * @param car автомобиль.
+     */
     @Override
     public void delete(Car car) {
         crudRepository.run(session -> session.delete(car));

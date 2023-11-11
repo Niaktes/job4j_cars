@@ -16,6 +16,8 @@
   <div class="container-fluid p-0">
     <header th:insert="~{blocks/header :: header_login}"></header>
     <div class="container col-9">
+
+    <!-- User properties update -->
       <form class="mt-3" th:action="@{/users/update}" method="post" th:object="${user}">
         <div class="mb-3" th:if="${error}">
           <p class="text-danger" th:text="${error}"></p>
@@ -41,6 +43,7 @@
         </div>
       </form>
 
+    <!-- User delete function -->
       <div class="accordion accordion-flush col-9" id="UserDelete">
         <div class="accordion-item col-4">
           <div class="mb-3">

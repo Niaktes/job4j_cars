@@ -19,8 +19,6 @@ public interface PostService {
 
     boolean update(Post post, ImageDto imageDto);
 
-    void delete(Post post);
-
     void deleteAllByUser(User user);
 
     List<Post> findAllByCriteria(PostSearchDto searchDto);

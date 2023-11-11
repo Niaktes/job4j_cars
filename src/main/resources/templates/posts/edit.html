@@ -27,6 +27,8 @@
             <input type="hidden" name="car.id" th:value="*{car.id}"/>
             <input type="hidden" name="car.brand.id" th:value="*{car.brand.id}"/>
             <input type="hidden" name="image.id" th:field="*{image.id}"/>
+
+          <!-- Car parameters -->
             <div class="card-header">
               Параметры автомобиля
             </div>
@@ -114,6 +116,8 @@
                 </div>
               </div>
             </div>
+
+          <!-- Post parameters -->
             <img th:if="${post.image.id != 0}" th:src="@{/images/{imageId}(imageId=${post.image.id})}" style="height:200px; width:250px; object-fit: contain;" class="rounded mx-auto d-block">
             <div class="mb-3">
               <label for="formFile">Загрузить фото (старое будет удалено):</label>

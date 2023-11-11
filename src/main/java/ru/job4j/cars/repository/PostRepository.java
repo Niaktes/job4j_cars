@@ -18,8 +18,6 @@ public interface PostRepository {
 
     boolean update(Post post);
 
-    void delete(Post post);
-
     void deleteAllByUser(User user);
 
     List<Post> findAllByCriteria(Car car, boolean imagesExist, int createdDaysBefore, long minPrice,

@@ -25,6 +25,8 @@
             <input type="hidden" name="id" value="0"/>
             <input type="hidden" name="user.id" th:value="${user.id}"/>
             <input type="hidden" name="sold" value="false"/>
+
+          <!-- Car parameters -->
             <div class="card-header">
               Выберите параметры автомобиля
             </div>
@@ -112,6 +114,8 @@
                 </div>
               </div>
             </div>
+
+          <!-- Post parameters -->
             <div class="mb-3">
               <label for="formFile">Загрузите фото</label>
               <input class="form-control form-control-sm w-100" type="file" id="formFile" name="file">

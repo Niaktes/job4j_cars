@@ -73,14 +73,9 @@ public class HibernatePostRepository implements PostRepository {
     }
 
     /**
-     * Удалить пост.
-     * @param post пост.
+     * Удалить все объявления пользователя.
+     * @param user пользователь.
      */
-    @Override
-    public void delete(Post post) {
-        crudRepository.run(session -> session.delete(post));
-    }
-
     @Override
     public void deleteAllByUser(User user) {
         crudRepository.run("DELETE Post WHERE user = :user", Map.of("user", user));

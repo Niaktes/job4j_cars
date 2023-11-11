@@ -8,7 +8,6 @@ import lombok.Data;
 public class ImageDto {
 
     private String name;
-
     private byte[] content;
 
 }

@@ -16,7 +16,7 @@ public class SimpleEngineService implements EngineService {
 
     @Override
     public Engine save(Engine engine) {
-        return engineRepository.save(engine).get();
+        return engineRepository.save(engine);
     }
 
     @Override

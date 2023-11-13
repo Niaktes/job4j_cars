@@ -77,7 +77,12 @@ public class PostController {
     @PostMapping("/create")
     public String createPost(@ModelAttribute Post post, @RequestParam MultipartFile file, Model model) {
         try {
-            postService.save(post, new ImageDto(file.getOriginalFilename(), file.getBytes()));
+            Optional<Post> savedPost = postService.save(post,
+                    new ImageDto(file.getOriginalFilename(), file.getBytes()));
+            if (savedPost.isEmpty()) {
+                model.addAttribute("message", "Произошла ошибка при создании объявления.");
+                return "errors/404";
+            }
         } catch (IOException e) {
             model.addAttribute("message", "Ошибка при создании объявления!");
             return "errors/404";
@@ -92,6 +97,7 @@ public class PostController {
                     new ImageDto(file.getOriginalFilename(), file.getBytes()));
             if (!isUpdated) {
                 model.addAttribute("message", "Произошла ошибка при обновлении объявления.");
+                return "errors/404";
             }
         } catch (IOException e) {
             model.addAttribute("message", "Ошибка при обновлении объявления!");

@@ -15,7 +15,6 @@ public class SimplePostService implements PostService {
     private final PostRepository postRepository;
     private final CarModelService carModelService;
     private final CarService carService;
-    private final BrandService brandService;
     private final EngineService engineService;
     private final ImageService imageService;
     private final PriceHistoryService priceHistoryService;
@@ -24,12 +23,9 @@ public class SimplePostService implements PostService {
     public Optional<Post> save(Post post, ImageDto imageDto) {
         setBrand(post.getCar());
         setEngine(post.getCar());
-        Image newImage = null;
-        if (imageDto.getContent().length != 0) {
-            newImage = imageService.saveImage(imageDto);
-            post.setImage(newImage);
-        }
         addPriceHistory(post);
+        Image newImage = imageDto.getContent().length != 0 ? imageService.saveImage(imageDto) : null;
+        post.setImage(newImage);
         Optional<Post> postOptional = postRepository.save(post);
         if (postOptional.isEmpty() && newImage != null) {
             imageService.deleteImage(newImage);
@@ -101,7 +97,8 @@ public class SimplePostService implements PostService {
 
     private Car setBrand(Car car) {
         CarModel carModel = carModelService.getById(car.getCarModel().getId());
-        Brand brand = brandService.getById(carModel.getBrandId());
+        Brand brand = new Brand();
+        brand.setId(carModel.getBrandId());
         car.setBrand(brand);
         return car;
     }

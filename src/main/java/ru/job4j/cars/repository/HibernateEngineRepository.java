@@ -17,15 +17,11 @@ public class HibernateEngineRepository implements EngineRepository {
     /**
      * Сохранить в БД новый тип двигателя.
      * @param engine двигатель.
-     * @return Optional двигателя с ID.
      */
     @Override
-    public Optional<Engine> save(Engine engine) {
-        Optional<Engine> result = Optional.empty();
-        if (crudRepository.run(session -> session.save(engine))) {
-            result = Optional.of(engine);
-        }
-        return result;
+    public Engine save(Engine engine) {
+        crudRepository.run(session -> session.save(engine));
+        return engine;
     }
 
     /**

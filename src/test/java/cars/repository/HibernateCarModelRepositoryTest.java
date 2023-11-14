@@ -2,7 +2,7 @@ package cars.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import cars.testUtil.HibernateTestUtility;
+import cars.util.HibernateTestUtility;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
@@ -42,7 +42,7 @@ class HibernateCarModelRepositoryTest {
 
     @AfterAll
     static void clearAndClose() {
-        testUtil.delete(brand);
+        testUtil.clearDatabase();
         StandardServiceRegistryBuilder.destroy(registry);
     }
 

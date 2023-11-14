@@ -1,9 +1,8 @@
 package cars.repository;
 
-import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import cars.testUtil.HibernateTestUtility;
+import cars.util.HibernateTestUtility;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
@@ -38,17 +37,15 @@ class HibernateEngineRepositoryTest {
         testUtil.save(engineSize);
     }
 
-    @AfterEach
-    void clearTable() {
-        repository.findByFuelTypeAndSize(fuelType, engineSize).
-                ifPresent(testUtil::delete);
-    }
-
     @AfterAll
     static void clearAndClose() {
-        testUtil.delete(fuelType);
-        testUtil.delete(engineSize);
+        testUtil.clearDatabase();
         StandardServiceRegistryBuilder.destroy(registry);
+    }
+
+    @AfterEach
+    void clearTable() {
+        repository.findByFuelTypeAndSize(fuelType, engineSize).ifPresent(testUtil::delete);
     }
 
     @Test

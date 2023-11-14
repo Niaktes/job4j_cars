@@ -80,9 +80,9 @@ public class SimplePostService implements PostService {
     @Override
     public void deleteAllByUser(User user) {
         List<Post> posts = postRepository.findAllByUserId(user.getId());
+        postRepository.deleteAllByUser(user);
         posts.forEach(this::deletePostsImage);
         posts.forEach(p -> carService.delete(p.getCar()));
-        postRepository.deleteAllByUser(user);
     }
 
     @Override

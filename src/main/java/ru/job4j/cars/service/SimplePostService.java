@@ -106,12 +106,12 @@ public class SimplePostService implements PostService {
     private Car setEngine(Car car) {
         Optional<Engine> engineOptional = engineService.findByFuelTypeAndSize(
                 car.getEngine().getFuelType(), car.getEngine().getEngineSize());
-        if (engineOptional.isEmpty()) {
-            Engine engine = engineService.save(car.getEngine());
-            car.setEngine(engine);
-        } else {
-            car.setEngine(engineOptional.get());
-        }
+        engineOptional.ifPresentOrElse(
+                car::setEngine,
+                () -> {
+                    Engine engine = engineService.save(car.getEngine());
+                    car.setEngine(engine);
+                });
         return car;
     }
 

@@ -20,7 +20,7 @@ class IndexControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    void whenGetRequestIndexThenReturnAllPostsPage() throws Exception {
+    void whenGetRequestIndexThenRedirectAllPostsPage() throws Exception {
         this.mockMvc.perform(get("/index"))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())

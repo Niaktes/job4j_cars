@@ -79,6 +79,7 @@ public class UserController {
         boolean updated =  userService.update(user);
         if (!updated) {
             model.addAttribute("error", "Ошибка при обновлении данных пользователя.");
+            model.addAttribute("user", session.getAttribute("user"));
             return "users/update";
         }
         session.invalidate();
@@ -90,6 +91,7 @@ public class UserController {
         User actualUser = (User) session.getAttribute("user");
         if (!password.equals(actualUser.getPassword())) {
             model.addAttribute("error", "Введенный пароль не совпадает с паролем пользователя.");
+            model.addAttribute("user", session.getAttribute("user"));
             return "users/update";
         }
         session.invalidate();

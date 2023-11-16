@@ -173,7 +173,7 @@
               <goal>shade</goal>
             </goals>
             <configuration>
-              <finalName>application</finalName>
+              <finalName>cars</finalName>
             </configuration>
           </execution>
         </executions>

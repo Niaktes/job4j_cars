@@ -5,6 +5,7 @@ import java.util.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.job4j.cars.dto.ImageDto;
@@ -13,6 +14,7 @@ import ru.job4j.cars.model.Brand;
 import ru.job4j.cars.model.CarModel;
 import ru.job4j.cars.model.Post;
 import ru.job4j.cars.service.*;
+import ru.job4j.cars.utilities.SearchValidator;
 
 @Controller
 @RequestMapping("/posts")
@@ -29,14 +31,13 @@ public class PostController {
     private final FuelTypeService fuelTypeService;
     private final TransmissionService transmissionService;
 
+    private final SearchValidator searchValidator;
+
     @GetMapping("/all")
-    public String getAllPosts(Model model, @ModelAttribute PostSearchDto searchDto) {
+    public String getAllPosts(Model model, @ModelAttribute PostSearchDto searchDto, BindingResult br) {
         addFormAttributesToModel(model);
-        boolean searchActive = searchDto.getCar() != null
-                || searchDto.getHighestPrice() > 0
-                || searchDto.getLowestPrice() > 0
-                || searchDto.getPostCreatedBeforeDays() > 0
-                || searchDto.isImageExists();
+        searchValidator.validate(searchDto, br);
+        boolean searchActive = searchIsActiveCheck(br);
         if (!searchActive) {
             model.addAttribute("posts", postService.findAllNotSold());
         } else {
@@ -75,32 +76,24 @@ public class PostController {
     }
 
     @PostMapping("/create")
-    public String createPost(@ModelAttribute Post post, @RequestParam MultipartFile file, Model model) {
-        try {
-            Optional<Post> savedPost = postService.save(post,
-                    new ImageDto(file.getOriginalFilename(), file.getBytes()));
-            if (savedPost.isEmpty()) {
-                model.addAttribute("message", "Произошла ошибка при создании объявления.");
-                return "errors/404";
-            }
-        } catch (IOException e) {
-            model.addAttribute("message", "Ошибка при создании объявления!");
+    public String createPost(@ModelAttribute Post post, @RequestParam MultipartFile file, Model model)
+            throws IOException {
+        Optional<Post> savedPost = postService.save(post,
+                new ImageDto(file.getOriginalFilename(), file.getBytes()));
+        if (savedPost.isEmpty()) {
+            model.addAttribute("message", "Произошла ошибка при создании объявления.");
             return "errors/404";
         }
         return "redirect:/posts/all";
     }
 
     @PostMapping("/edit")
-    public String editPost(@ModelAttribute Post post, @RequestParam MultipartFile file, Model model) {
-        try {
-            boolean isUpdated = postService.update(post,
-                    new ImageDto(file.getOriginalFilename(), file.getBytes()));
-            if (!isUpdated) {
-                model.addAttribute("message", "Произошла ошибка при обновлении объявления.");
-                return "errors/404";
-            }
-        } catch (IOException e) {
-            model.addAttribute("message", "Ошибка при обновлении объявления!");
+    public String editPost(@ModelAttribute Post post, @RequestParam MultipartFile file, Model model)
+            throws IOException {
+        boolean isUpdated = postService.update(post,
+                new ImageDto(file.getOriginalFilename(), file.getBytes()));
+        if (!isUpdated) {
+            model.addAttribute("message", "Произошла ошибка при обновлении объявления.");
             return "errors/404";
         }
         return "redirect:/users/posts";
@@ -121,6 +114,10 @@ public class PostController {
         model.addAttribute("colors", colorService.findAll());
         model.addAttribute("categories", categoryService.findAll());
         return model;
+    }
+
+    private boolean searchIsActiveCheck(BindingResult bindingResult) {
+        return bindingResult.getErrorCount() < PostSearchDto.class.getDeclaredFields().length;
     }
 
 }
